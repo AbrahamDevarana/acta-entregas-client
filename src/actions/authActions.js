@@ -10,7 +10,7 @@ export function loginAction(login){
             dispatch(getUserInfo()) 
         })
         .catch( error => {
-            dispatch(loginError())
+            dispatch(loginError(error.response.data))
         })
     }
 }
@@ -20,8 +20,9 @@ const loginSuccess = payload => ({
     payload
 })
 
-const loginError = () => ({
-    type: LOGIN_ERROR
+const loginError = payload => ({
+    type: LOGIN_ERROR,
+    payload
 })
 
 export function getUserInfo() {
@@ -39,8 +40,9 @@ export function getUserInfo() {
                 payload: response.data
             })
         }).catch ( error => {
+            console.log(error)
             dispatch({
-                type: LOGIN_ERROR
+                type: LOGIN_ERROR,
             })
         })
     }

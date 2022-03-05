@@ -1,16 +1,16 @@
-const Layout = (props) => {
+const LayoutApp = (props) => {
 
     const { children } = props
     
     return ( 
         <>
-        <div className="grid grid-cols-2">
+        {/* <div className="grid grid-cols-2">
             <button className="text-center bg-devarana-gray text-white py-2 hover:opacity-80"> Home </button>
             <button className="text-center bg-devarana-gray text-white py-2 hover:opacity-80"> Back </button>
-        </div>
+        </div> */}
             {children}
         </>
      );
 }
  
-export default Layout;
+export default LayoutApp;

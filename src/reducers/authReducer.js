@@ -6,7 +6,8 @@ const initialState = {
     user: [],
     auth: false,
     token: false,
-    loading: true
+    loading: true,
+    errors: null
 }
 
 export default function foo (state = initialState, action){
@@ -18,7 +19,8 @@ export default function foo (state = initialState, action){
                 ...state,
                 auth:true,
                 loading:false,
-                token:true
+                token:true,
+                errors:null
             }
         case LOGIN_ERROR:
         case LOG_OUT:
@@ -28,7 +30,8 @@ export default function foo (state = initialState, action){
                 token: false,
                 auth: false,
                 loading: false,
-                user: false
+                user: false,
+                errors: action.payload
             }
         case GET_USER:
             return{

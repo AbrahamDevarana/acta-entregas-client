@@ -1,17 +1,30 @@
-import Layout from '../layouts/app'
+import LayoutApp from '../layouts/LayoutApp'
 import Home from '../pages/home'
+import PlanoDepartamento from '../pages/home/departamento'
+import LayoutLogin from '../layouts/LayoutLogin'
 import Login from '../pages/auth/Login'
-import LayoutLogin from '../layouts/auth'
+
+import LayoutAdmin from '../layouts/LayoutAdmin'
+import AdminHome from '../pages/admin'
+import Departamentos from '../pages/admin/departamentos'
+import Listado from '../pages/home/listado'
+
+
 
 const routesAdmin = [
-        {
-            path: "/",
-            layout: Layout,
-            component: Home,
-        },
-    ]
+    {
+        path: "/admin",
+        layout: LayoutAdmin,
+        component: AdminHome,
+    },
+    {
+        path: "/admin/departamentos",
+        layout: LayoutAdmin,
+        component: Departamentos,
+    },
+]
 
-const routesClient = [
+const routesAccess = [
     {
         path: "/login",
         layout: LayoutLogin,
@@ -19,7 +32,25 @@ const routesClient = [
     },
 ]
 
-const routes = [...routesAdmin, ...routesClient]
+const routesClient = [
+    {
+        path: "/",
+        layout: LayoutApp,
+        component: Home,
+    },
+    {
+        path: "/departamento",
+        layout: LayoutApp,
+        component: PlanoDepartamento,
+    },
+    {
+        path: "/departamento/listado",
+        layout: LayoutApp,
+        component: Listado,
+    },
+]
+
+const routes = [...routesAdmin, ...routesAccess, ...routesClient]
 
 
 export default routes
