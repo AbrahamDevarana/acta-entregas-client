@@ -1,7 +1,7 @@
-const Departamentos = () => {
+const AdminDepartamentos = () => {
     return ( 
         <></>
      );
 }
  
-export default Departamentos;
+export default AdminDepartamentos;
