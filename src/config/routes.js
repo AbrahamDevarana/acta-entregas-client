@@ -11,15 +11,21 @@ import Login from '../pages/auth/Login'
 import LayoutAdmin from '../layouts/LayoutAdmin'
 import AdminHome from '../pages/admin'
 import AdminDepartamentos from '../pages/admin/departamentos'
+import AdminDepartamentosEdit from '../pages/admin/departamentos/edit'
 import AdminSeccion from '../pages/admin/seccion'
 import AdminListado from '../pages/admin/listado'
 import AdminListadoCreate from '../pages/admin/listado/create'
 import AdminListadoEdit from '../pages/admin/listado/edit'
 import AdminSeccionCreate from '../pages/admin/seccion/create'
 import AdminSeccionEdit from '../pages/admin/seccion/edit'
+import AdminUsuario from '../pages/admin/usuarios'
+import AdminUsuarioCreate from '../pages/admin/usuarios/create'
+import AdminUsuarioEdit from '../pages/admin/usuarios/edit'
 
 
 import Error404 from '../pages/Error404'
+import AdminCalendar from '../components/calendar'
+
 
 
 const routesAdmin = [
@@ -29,9 +35,29 @@ const routesAdmin = [
         component: AdminHome,
     },
     {
+        path: "/admin/usuarios",
+        layout: LayoutAdmin,
+        component: AdminUsuario,
+    },
+    {
+        path: "/admin/usuarios/create",
+        layout: LayoutAdmin,
+        component: AdminUsuarioCreate,
+    },
+    {
+        path: "/admin/usuarios/edit/:id",
+        layout: LayoutAdmin,
+        component: AdminUsuarioEdit,
+    },
+    {
         path: "/admin/departamentos",
         layout: LayoutAdmin,
         component: AdminDepartamentos,
+    },
+    {
+        path: "/admin/departamentos/edit/:id",
+        layout: LayoutAdmin,
+        component: AdminDepartamentosEdit,
     },
     {
         path: "/admin/seccion",
@@ -63,6 +89,11 @@ const routesAdmin = [
         path: "/admin/listado/edit/:id",
         layout: LayoutAdmin,
         component: AdminListadoEdit,
+    },
+    {
+        path: "/admin/calendar",
+        layout: LayoutAdmin,
+        component: AdminCalendar,
     },
 
     

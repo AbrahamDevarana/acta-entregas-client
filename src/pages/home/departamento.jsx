@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import DptoPlano from "../../assets/img/cliente/dptoPlano.png"
+import StylePlusPlano from "../../assets/img/departamentos/style_plus"; 
 
 const PlanoDepartamento = () => {
-    const navigate = useNavigate()
+      const zonaSeleccion = (e) => {
+        console.log(e.target.id);
+    }
+
     return ( 
-        <>
-            <div>
-                Departamento bla bla bla
-            </div>
-            <img src={DptoPlano} alt="" className="w-full" onClick={()=> navigate('listado')}/>
-        </>
+        <div className="bg-devarana-pearl min-h-screen">
+            <StylePlusPlano zonaSeleccion={zonaSeleccion}/> 
+        </div>
      );
 }
  

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteListadoAction, editListadoAction, getListadosAction } from '../../../actions/listadoActions';
+import { deleteListadoAction, editListadoAction, getListadosAction, cleanListadoAction } from '../../../actions/listadoActions';
 import Button from '../../../components/button';
 import Table from '../../../components/Table'
 
@@ -14,6 +14,7 @@ const AdminListado = () => {
     const navigate = useNavigate()
     useEffect ( ()=> { 
         dispatch(getListadosAction())
+        dispatch(cleanListadoAction())
     }, [])
 
     const setEdit = (id) => {

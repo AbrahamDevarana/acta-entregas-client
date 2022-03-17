@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { editSeccionAction, updateSeccionAction } from '../../../actions/seccionActions';
 import { useEffect, useState } from 'react';
+import { getListadosAction } from '../../../actions/listadoActions';
 
 const AdminSeccionEdit = () => {
 
@@ -16,19 +17,29 @@ const AdminSeccionEdit = () => {
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector ( state => state.seccion.errors )
     const editSeccion = useSelector( state => state.seccion.edit)
+    const redirect = useSelector( state => state.seccion.redirectTo)
+    const listado = useSelector (state => state.listado.listado)
 
+    const navigate = useNavigate()
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    
+    if(redirect){
+        navigate(redirect)
+    }
+    
 
     const [seccion, setSeccion ] = useState({
+        id: '',
         descripcion: '',
+        lista: []
     })
 
     useEffect( () => {
         if(!editSeccion){
             dispatch(editSeccionAction(params.id))
         }
-        setSeccion(editSeccion)
+        setSeccion({id:editSeccion.id, descripcion : editSeccion.descripcion, lista: editSeccion.listado? editSeccion.listado.map( item => `${item.id}` ) : null })
+        dispatch(getListadosAction())
     }, [editSeccion])
 
     const { descripcion } = seccion
@@ -39,6 +50,28 @@ const AdminSeccionEdit = () => {
             [e.target.name]:e.target.value
         })
     }
+
+
+    const handleCheck = (e) => {        
+        // Destructuring
+        const { value, checked } = e.target;
+        const { lista } = seccion;
+
+        // Case 1 : The user checks the box
+        if (checked) {
+            setSeccion({
+                ...seccion,
+                lista: [...lista, value],
+            });
+        }
+        // Case 2  : The user unchecks the box
+        else {
+            setSeccion({
+                ...seccion,
+                lista: lista.filter((e) => e !== value),
+            });
+        }
+    };
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -52,21 +85,11 @@ const AdminSeccionEdit = () => {
         }
         dispatch(hideAlertAction())
         dispatch(updateSeccionAction(seccion))
-        
-
-        if( alert !== null || !errors){
-            setSeccion({
-                descripcion: '',
-            })
-            setTimeout(() => {
-                navigate('/admin/seccion')
-            }, 1000);
-        }
     }
 
     return ( 
     <>
-    <div className='max-w-[600px] m-auto w-full px-5 py-10'>
+    <div className='max-w-[1000px] m-auto w-full px-5 py-10'>
         <h1 className='font-mulish text-4xl text-center font-bold uppercase py-4 text-devarana-midnight'>Sección</h1>
         <ErrorDisplay alert={alert} errors={errors} />
 
@@ -76,22 +99,19 @@ const AdminSeccionEdit = () => {
             <div className='py-4'>
                 <h2 className='font-mulish font-bold text-2xl py-2'>Lista de elementos </h2> 
                 <div className="grid grid-cols-3">
-                    <div>
-                        <input type="checkbox" className='rounded-md shadow-md my-1 mx-2' />
-                        <label htmlFor="" className='text-sm'>Piso porcelánico rectificado</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" className='rounded-md shadow-md my-1 mx-2'/>
-                        <label htmlFor="" className='text-sm'>Ventanería premium en aluminio obscuro</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" className='rounded-md shadow-md my-1 mx-2' />
-                        <label htmlFor="" className='text-sm' >Acabado de granito en cocina</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" className='rounded-md shadow-md my-1 mx-2' />
-                        <label htmlFor="" className='text-sm'>Monomando tipo extraíble en cocina</label>
-                    </div>
+                    { listado && listado.length > 0 ? 
+                        listado.map( (item, i) => (
+                        <div key={i} className="py-1">
+                            <input type="checkbox" id={`chk${item.id}`} name="lista" value={item.id} checked={seccion.lista? seccion.lista.includes( `${item.id}` ) : false } onChange={handleCheck} className='rounded-md shadow-md my-1 mx-2' />
+                            <label htmlFor={`chk${item.id}`} className='cursor-pointer'>{item.descripcion}</label>
+                        </div>
+                            ) )
+                        
+                        : 
+
+                        null
+                
+                    }
                 </div>
             </div>
             <Button className={"bg-devarana-midnight text-white mt-6 block ml-auto"}> Guardar </Button>

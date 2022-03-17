@@ -7,22 +7,30 @@ const LayoutAdmin = (props) => {
     const { children } = props
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const authorized = useSelector(state => state.auth)
     const {auth,  loading, token} = authorized
     const { name, email } = authorized.user 
 
-    const navigate = useNavigate()
+    const tkn = localStorage.getItem('Bearer')
 
     useEffect( () => {
+        if ( !auth && !tkn){
+            navigate("/login")
+        }
         dispatch(getUserInfo())
         // eslint-disable-next-line
     }, [])
+
+   
      
-    if (!auth && !loading){
-        navigate("/login")
-    }
+   
+
+
+
     const logOut = () => {
         dispatch(logOutAction())
+        navigate('/login')
     }
     return ( 
         <>
@@ -34,7 +42,9 @@ const LayoutAdmin = (props) => {
                 <li className="text-devarana-graph text-center uppercase font-bold"> <i className="fas fa-cogs block sm:hidden"></i> <p className="sm:block hidden">Administración</p> </li>
                 <Link to={'/admin/departamentos'}><li className='text-white font-bold py-4 sm:py-2 text-center uppercase shadow hover:bg-devarana-graph'><i title="Departamentos" className="fas fa-building block sm:hidden"></i><p className="sm:block hidden">Departamentos</p> </li></Link>
                 <Link to={'/admin/listado'}><li className='text-white font-bold py-4 sm:py-2 text-center uppercase shadow hover:bg-devarana-graph'><i title="Listado" className="fa-solid fa-list block sm:hidden"></i><p className="sm:block hidden">Listado</p> </li></Link>
-                <Link to={'/admin/seccion'}><li className='text-white font-bold py-4 sm:py-2 text-center uppercase shadow hover:bg-devarana-graph'><i title="Seccion" className="fa-regular fa-puzzle block sm:hidden"></i><p className="sm:block hidden">Secciones</p> </li></Link>
+                <Link to={'/admin/seccion'}><li className='text-white font-bold py-4 sm:py-2 text-center uppercase shadow hover:bg-devarana-graph'><i title="Seccion" className="fa-regular fa-puzzle block sm:hidden"></i><p className="sm:block hidden">Zonas</p> </li></Link>
+                <Link to={'/admin/usuarios'}><li className='text-white font-bold py-4 sm:py-2 text-center uppercase shadow hover:bg-devarana-graph'><i title="Seccion" className="fa-regular fa-puzzle block sm:hidden"></i><p className="sm:block hidden">Usuarios</p> </li></Link>
+                <Link to={'/admin/roles'}><li className='text-white font-bold py-4 sm:py-2 text-center uppercase shadow hover:bg-devarana-graph'><i title="Seccion" className="fa-regular fa-puzzle block sm:hidden"></i><p className="sm:block hidden">Roles</p> </li></Link>
                 <hr className="py-2"/>
             </ul>
         </aside>

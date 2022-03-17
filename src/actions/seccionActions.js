@@ -15,9 +15,10 @@ import {
     DELETE_SECCION,
     DELETE_SECCION_SUCCESS,
     DELETE_SECCION_ERROR,
+    CLEAN_SECCION,
+    REDIRECT
 } from '../types'
 import Swal from 'sweetalert2'
-
 
 // Create 
 
@@ -27,6 +28,7 @@ export function createNewSeccionAction(seccion){
         clientAxios.post('seccion', seccion)
         .then( response => {
             dispatch(addSeccionSuccess(response.data.seccion))
+            dispatch(redirectTo())
         })
         .catch( error => {
             dispatch(addSeccionError(error.response.data))
@@ -117,10 +119,12 @@ const editSeccionError = payload => ({
 
 export function updateSeccionAction(seccion){
     return async dispatch => {
+        console.log(seccion);
         dispatch(updateSeccion())
         await clientAxios.put(`/seccion/${seccion.id}`, seccion)
         .then( response => {
             dispatch(updateSeccionSuccess(response.data.seccion))
+            dispatch(redirectTo())
         })
         .catch( error => {
             dispatch(updateSeccionError(error.response.data))
@@ -194,3 +198,20 @@ const deleteSeccionError = payload => ({
     type: DELETE_SECCION_ERROR,
     payload
 })
+
+export function cleanSeccionAction(){
+    return dispatch => {
+        dispatch({
+            type: CLEAN_SECCION
+        })
+    }
+}
+
+export function redirectTo(){
+    return dispatch => {
+        dispatch({
+            type: REDIRECT,
+            payload: "/admin/seccion"
+        })
+    }
+}

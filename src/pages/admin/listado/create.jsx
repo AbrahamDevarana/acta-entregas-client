@@ -13,10 +13,15 @@ import ErrorDisplay from '../../../components/errors';
 const AdminListadoCreate = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector( state => state.listado.errors)
-    const navigate = useNavigate()
+    const redirect = useSelector( state => state.listado.redirectTo)
+
+    if(redirect){
+        navigate(redirect)
+    }
 
     const [listado, setListado ] = useState({
         descripcion: '',
@@ -44,17 +49,6 @@ const AdminListadoCreate = () => {
         }
         dispatch(hideAlertAction())
         dispatch(createNewListadoAction(listado))
-        
-
-        if( alert !== null || !errors){
-            setListado({
-                descripcion: '',
-                tipoListado: ''
-            })
-            setTimeout(() => {
-                navigate('/admin/listado')
-            }, 1000);
-        }
     }
 
     return ( 

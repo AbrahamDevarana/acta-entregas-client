@@ -1,35 +1,32 @@
 import clientAxios from '../config/axios'
 import {
-    CREATE_LISTADO,
-    CREATE_LISTADO_SUCCESS,
-    CREATE_LISTADO_ERROR,
-    VIEW_LISTADO,
-    VIEW_LISTADO_SUCCESS,
-    VIEW_LISTADO_ERROR,
-    EDIT_LISTADO,
-    EDIT_LISTADO_SUCCESS,
-    EDIT_LISTADO_ERROR,
-    UPDATE_LISTADO,
-    UPDATE_LISTADO_SUCCESS,
-    UPDATE_LISTADO_ERROR,
-    DELETE_LISTADO,
-    DELETE_LISTADO_SUCCESS,
-    DELETE_LISTADO_ERROR,
-    CLEAN_LISTADO,
+    CREATE_AGENDA,
+    CREATE_AGENDA_SUCCESS,
+    CREATE_AGENDA_ERROR,
+    VIEW_AGENDA,
+    VIEW_AGENDA_SUCCESS,
+    VIEW_AGENDA_ERROR,
+    EDIT_AGENDA,
+    EDIT_AGENDA_SUCCESS,
+    EDIT_AGENDA_ERROR,
+    UPDATE_AGENDA,
+    UPDATE_AGENDA_SUCCESS,
+    UPDATE_AGENDA_ERROR,
+    DELETE_AGENDA,
+    DELETE_AGENDA_SUCCESS,
+    DELETE_AGENDA_ERROR,
+    CLEAN_AGENDA,
     REDIRECT
 } from '../types'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
-
-
 // Create 
 
-export function createNewListadoAction(listado){
+export function createNewListadoAction(agenda){
     return dispatch => {
         dispatch(addListado())
-        clientAxios.post('listado', listado)
+        clientAxios.post('agenda', agenda)
         .then( response => {
-            dispatch(addListadoSuccess(response.data.listado))
+            dispatch(addListadoSuccess(response.data.agenda))
             dispatch(redirectTo())
         })
         .catch( error => {
@@ -39,48 +36,48 @@ export function createNewListadoAction(listado){
 }
 
 const addListado = () => ({
-    type: CREATE_LISTADO,
+    type: CREATE_AGENDA,
     payload: true
 })
 
 const addListadoSuccess = payload => ({
-    type: CREATE_LISTADO_SUCCESS,
+    type: CREATE_AGENDA_SUCCESS,
     payload
 })
 
 const addListadoError = payload => ({
-    type: CREATE_LISTADO_ERROR,
+    type: CREATE_AGENDA_ERROR,
     payload
 }) 
 
 
-// all listado
+// all agenda
 
-export function getListadosAction(){
+export function getAgendaAction(){
     return async (dispatch) => {
-        dispatch (getListados())
-        await clientAxios.get('/listado')
+        dispatch (getAgenda())
+        await clientAxios.get('/agenda')
         .then( response => {
-            dispatch(getListadosSuccess(response.data.listado))
+            dispatch(getAgendaSuccess(response.data.agenda))
         })
         .catch(error => {
-            dispatch(getListadosError(error.response.data))
+            dispatch(getAgendaError(error.response.data))
         })
     }
 }
 
-const getListados = () => ({
-    type: VIEW_LISTADO,
+const getAgenda = () => ({
+    type: VIEW_AGENDA,
     payload: true
 })
 
-const getListadosSuccess = payload => ({
-    type: VIEW_LISTADO_SUCCESS,
+const getAgendaSuccess = payload => ({
+    type: VIEW_AGENDA_SUCCESS,
     payload
 })
 
-const getListadosError = payload => ({
-    type: VIEW_LISTADO_ERROR,
+const getAgendaError = payload => ({
+    type: VIEW_AGENDA_ERROR,
     payload
 })
 
@@ -90,9 +87,9 @@ const getListadosError = payload => ({
 export function editListadoAction(id) {
     return async (dispatch) => {
         dispatch(editListado())
-        await clientAxios.get(`/listado/${id}/edit`)
+        await clientAxios.get(`/agenda/${id}/edit`)
         .then(response =>{
-            dispatch(editListadoSuccess(response.data.listado))
+            dispatch(editListadoSuccess(response.data.agenda))
         })
         .catch( error => {
             editListadoError(error.response.data)
@@ -102,29 +99,29 @@ export function editListadoAction(id) {
 
 
 const editListado = () => ({
-    type: EDIT_LISTADO,
+    type: EDIT_AGENDA,
     payload: true
 })
 
 const editListadoSuccess = payload => ({
-    type: EDIT_LISTADO_SUCCESS,
+    type: EDIT_AGENDA_SUCCESS,
     payload
 })
 
 const editListadoError = payload => ({
-    type: EDIT_LISTADO_ERROR,
+    type: EDIT_AGENDA_ERROR,
     payload: payload
 })
 
 
 // Update Listado
 
-export function updateListadoAction(listado){
+export function updateListadoAction(agenda){
     return async dispatch => {
         dispatch(updateListado())
-        await clientAxios.put(`/listado/${listado.id}`, listado)
+        await clientAxios.put(`/agenda/${agenda.id}`, agenda)
         .then( response => {
-            dispatch(updateListadoSuccess(response.data.listado))
+            dispatch(updateListadoSuccess(response.data.agenda))
             dispatch(redirectTo())
         })
         .catch( error => {
@@ -134,17 +131,17 @@ export function updateListadoAction(listado){
 }
 
 const updateListado = () => ({
-    type: UPDATE_LISTADO,
+    type: UPDATE_AGENDA,
     payload: true
 })
 
 const updateListadoSuccess = payload => ({
-    type: UPDATE_LISTADO_SUCCESS,
+    type: UPDATE_AGENDA_SUCCESS,
     payload
 })
 
 const updateListadoError = payload => ({
-    type: UPDATE_LISTADO_ERROR,
+    type: UPDATE_AGENDA_ERROR,
     payload
 })
 
@@ -162,9 +159,9 @@ export function deleteListadoAction(id){
           }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(deleteListado(id))        
-                clientAxios.delete(`/listado/${id}`)
+                clientAxios.delete(`/agenda/${id}`)
                 .then( response => {
-                    dispatch(deleteListadoSuccess(response.data.listado))
+                    dispatch(deleteListadoSuccess(response.data.agenda))
                     Swal.fire(
                         'Borrado!',
                         'Elemento borrado.',
@@ -186,24 +183,24 @@ export function deleteListadoAction(id){
 }
 
 const deleteListado = payload => ({
-    type: DELETE_LISTADO,
+    type: DELETE_AGENDA,
     payload
 })
 
 const deleteListadoSuccess = payload => ({
-    type: DELETE_LISTADO_SUCCESS,
+    type: DELETE_AGENDA_SUCCESS,
     payload
 })
 
 const deleteListadoError = payload => ({
-    type: DELETE_LISTADO_ERROR,
+    type: DELETE_AGENDA_ERROR,
     payload
 })
 
 export function cleanListadoAction(){
     return dispatch => {
         dispatch({
-            type: CLEAN_LISTADO
+            type: CLEAN_AGENDA
         })
     }
 }
@@ -212,7 +209,7 @@ export function redirectTo(){
     return dispatch => {
         dispatch({
             type: REDIRECT,
-            payload: "/admin/listado"
+            payload: "/admin/agenda"
         })
     }
 }

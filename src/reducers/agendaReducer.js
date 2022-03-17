@@ -1,25 +1,25 @@
 import {
-    CREATE_LISTADO,
-    CREATE_LISTADO_SUCCESS,
-    CREATE_LISTADO_ERROR,
-    VIEW_LISTADO,
-    VIEW_LISTADO_SUCCESS,
-    VIEW_LISTADO_ERROR,
-    DELETE_LISTADO,
-    DELETE_LISTADO_SUCCESS,
-    DELETE_LISTADO_ERROR,
-    EDIT_LISTADO,
-    EDIT_LISTADO_SUCCESS,
-    EDIT_LISTADO_ERROR,
-    UPDATE_LISTADO,
-    UPDATE_LISTADO_SUCCESS,
-    UPDATE_LISTADO_ERROR,
-    CLEAN_LISTADO,
+    CREATE_AGENDA,
+    CREATE_AGENDA_SUCCESS,
+    CREATE_AGENDA_ERROR,
+    VIEW_AGENDA,
+    VIEW_AGENDA_SUCCESS,
+    VIEW_AGENDA_ERROR,
+    DELETE_AGENDA,
+    DELETE_AGENDA_SUCCESS,
+    DELETE_AGENDA_ERROR,
+    EDIT_AGENDA,
+    EDIT_AGENDA_SUCCESS,
+    EDIT_AGENDA_ERROR,
+    UPDATE_AGENDA,
+    UPDATE_AGENDA_SUCCESS,
+    UPDATE_AGENDA_ERROR,
+    CLEAN_AGENDA,
     REDIRECT
 } from '../types'
 
 const initialState = {
-    listado: [],
+    agenda: [],
     errors: false,
     loading: false,
     edit: false,
@@ -31,27 +31,27 @@ const initialState = {
 export default function foo (state = initialState, action ){
     switch (action.type) {
 
-        case CREATE_LISTADO:
-        case EDIT_LISTADO:
-        case UPDATE_LISTADO:
+        case CREATE_AGENDA:
+        case EDIT_AGENDA:
+        case UPDATE_AGENDA:
             return {
                 ...state,
                 loading: action.payload, 
             }
-        case DELETE_LISTADO:
+        case DELETE_AGENDA:
             return {
                 ...state,
                 loading: true,
                 delete: action.payload,
             }
-        case CREATE_LISTADO_SUCCESS:
+        case CREATE_AGENDA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                listado: [...state.listado, action.payload],
+                agenda: [...state.agenda, action.payload],
                 errors: null
             }
-        case EDIT_LISTADO_SUCCESS:
+        case EDIT_AGENDA_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -59,42 +59,42 @@ export default function foo (state = initialState, action ){
                 edit: action.payload,
                 edition: false
             }
-        case CREATE_LISTADO_ERROR:
-        case VIEW_LISTADO_ERROR:
-        case EDIT_LISTADO_ERROR:
-        case DELETE_LISTADO_ERROR:
-        case UPDATE_LISTADO_ERROR:
+        case CREATE_AGENDA_ERROR:
+        case VIEW_AGENDA_ERROR:
+        case EDIT_AGENDA_ERROR:
+        case DELETE_AGENDA_ERROR:
+        case UPDATE_AGENDA_ERROR:
             return {
                 ...state,
                 loading: false,
                 errors: action.payload
             }
 
-        case VIEW_LISTADO:
+        case VIEW_AGENDA:
             return {
                 ...state,
                 loading: action.payload,
             }
-        case VIEW_LISTADO_SUCCESS:
+        case VIEW_AGENDA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                listado: action.payload,
+                agenda: action.payload,
                 error: false
             }
-        case UPDATE_LISTADO_SUCCESS:
+        case UPDATE_AGENDA_SUCCESS:
             return {
                 ...state,
                 edit: false,
-                listado: state.listado.map ( item => item.id === action.payload.id ? item = action.payload : item )
+                agenda: state.agenda.map ( item => item.id === action.payload.id ? item = action.payload : item )
             }
-        case DELETE_LISTADO_SUCCESS:
+        case DELETE_AGENDA_SUCCESS:
             return {
                 ...state,
-                listado: state.listado.filter( item => item.id !== state.delete ),
+                agenda: state.agenda.filter( item => item.id !== state.delete ),
                 delete: null
             }
-        case CLEAN_LISTADO:
+        case CLEAN_AGENDA:
             return {
                 ...state,
                 errors: false,

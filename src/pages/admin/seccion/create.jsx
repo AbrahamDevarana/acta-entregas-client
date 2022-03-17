@@ -13,31 +13,45 @@ import { getListadosAction } from '../../../actions/listadoActions';
 const AdminSeccionCreate = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector( state => state.seccion.errors)
     const listado = useSelector (state => state.listado.listado)
-    const navigate = useNavigate()
-    const [checkedState, setCheckedState] = useState([]);
-
+    const redirect = useSelector( state => state.seccion.redirectTo)
+    if(redirect){
+        navigate(redirect)
+    }
     useEffect( () => {
         dispatch(getListadosAction())
-        setCheckedState(new Array(listado.length).fill(false))
+        // setCheckedState(new Array(listado.length).fill(false))
     }, [])
 
     
     const [seccion, setSeccion ] = useState({
         descripcion: '',
+        lista: []
     })
-    console.log(checkedState);
+    const handleCheck = (e) => {        
+        // Destructuring
+        const { value, checked } = e.target;
+        const { lista } = seccion;
 
-    const handleOnChange = (position) => {
-        const updatedCheckedState = checkedState.map((item, index) =>
-          index === position ? !item : item
-        );
-    
-        setCheckedState(updatedCheckedState);
-      };
+        // Case 1 : The user checks the box
+        if (checked) {
+            setSeccion({
+                ...seccion,
+                lista: [...lista, value],
+            });
+        }
+        // Case 2  : The user unchecks the box
+        else {
+            setSeccion({
+                ...seccion,
+                lista:lista.filter((e) => e !== value),
+            });
+        }
+    };
 
     const { descripcion } = seccion
 
@@ -60,16 +74,6 @@ const AdminSeccionCreate = () => {
         }
         dispatch(hideAlertAction())
         dispatch(createNewSeccionAction(seccion))
-        
-
-        if( alert !== null || !errors){
-            setSeccion({
-                descripcion: '',
-            })
-            setTimeout(() => {
-                navigate('/admin/seccion')
-            }, 1000);
-        }
     }
 
     return ( 
@@ -89,8 +93,8 @@ const AdminSeccionCreate = () => {
                             { listado && listado.length > 0 ? 
                                 listado.map( (item, i) => (
                                 <div key={i}>
-                                    <input type="checkbox" id={`chk${item.id}`} name={item.descripcion} value={item.descripcion} checked={checkedState[item.id]} onChange={()=>handleOnChange(item.id)} className='rounded-md shadow-md my-1 mx-2' />
-                                    <label htmlFor={`chk${item.id}`} className='text-sm'>{item.descripcion}</label>
+                                    <input type="checkbox" name="lista" id={`chk${item.id}`} value={item.id} onChange={handleCheck} className='rounded-md shadow-md my-1 mx-2' />
+                                    <label htmlFor={`chk${item.id}`} className='cursor-pointer'>{item.descripcion}</label>
                                 </div>
                                  ) )
                                 

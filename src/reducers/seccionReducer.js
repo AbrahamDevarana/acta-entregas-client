@@ -1,3 +1,4 @@
+
 import {
     CREATE_SECCION,
     CREATE_SECCION_SUCCESS,
@@ -14,6 +15,8 @@ import {
     UPDATE_SECCION,
     UPDATE_SECCION_SUCCESS,
     UPDATE_SECCION_ERROR,
+    CLEAN_SECCION,
+    REDIRECT
 } from '../types'
 
 const initialState = {
@@ -21,7 +24,8 @@ const initialState = {
     errors: false,
     loading: false,
     edit: false,
-    delete: null
+    delete: null,
+    redirectTo: false
 }
 
 
@@ -91,7 +95,19 @@ export default function foo (state = initialState, action ){
                 seccion: state.seccion.filter( item => item.id !== state.delete ),
                 delete: null
             }
-
+        case CLEAN_SECCION:
+            return {
+                ...state,
+                errors: false,
+                edit: false,
+                delete: null,
+                redirectTo: false
+            }
+        case REDIRECT:
+            return {
+                ...state,
+                redirectTo: action.payload
+            }
         
         
         default: 

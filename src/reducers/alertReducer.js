@@ -3,7 +3,7 @@ import { SHOW_ALERT, HIDE_ALERT} from '../types'
 
 
 const initialState = {
-    alert: null
+    alert: false
 }
 
 
@@ -17,7 +17,7 @@ export default function foo (state = initialState, action ){
         case HIDE_ALERT:
             return {
                 ...state,
-                alert: null
+                alert: false
             }
         default: 
             return state

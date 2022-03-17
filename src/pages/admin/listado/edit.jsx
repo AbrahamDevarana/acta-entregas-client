@@ -12,13 +12,17 @@ import { useEffect, useState } from 'react';
 const AdminListadoEdit = () => {
 
     const params = useParams()
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector ( state => state.listado.errors )
     const editListado = useSelector( state => state.listado.edit)
+    const redirect = useSelector( state => state.listado.redirectTo)
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    if(redirect){
+        navigate(redirect)
+    }
+    
 
     const [listado, setListado ] = useState({
         descripcion: '',
@@ -53,17 +57,6 @@ const AdminListadoEdit = () => {
         }
         dispatch(hideAlertAction())
         dispatch(updateListadoAction(listado))
-        
-
-        if( alert !== null || !errors){
-            setListado({
-                descripcion: '',
-                tipoListado: ''
-            })
-            setTimeout(() => {
-                navigate('/admin/listado')
-            }, 1000);
-        }
     }
 
     return ( 

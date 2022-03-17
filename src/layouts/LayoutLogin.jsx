@@ -8,7 +8,7 @@ const LayoutLogin = (props) => {
     
     const dispatch = useDispatch()
     const check = useSelector(state => state.auth)
-    const {auth} = check
+    const {auth, loading} = check
 
     const navigate = useNavigate()
     useEffect( () => {
@@ -16,7 +16,7 @@ const LayoutLogin = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    if(auth) {
+    if(auth && !loading) {
         navigate("/admin")
     } 
 

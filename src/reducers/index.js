@@ -4,10 +4,16 @@ import authReducer from './authReducer'
 import alertReducer from './alertReducer'
 import listadoReducer from './listadoReducer'
 import seccionReducer from './seccionReducer'
+import usuarioReducer from './userReducer'
+import departamentoReducer from './departamentoReducer'
+import agendaReducer from './agendaReducer'
 
 export default combineReducers({
     auth:authReducer,
     alert:alertReducer,
     listado:listadoReducer,
-    seccion:seccionReducer
+    seccion:seccionReducer,
+    usuarios:usuarioReducer,
+    departamento:departamentoReducer,
+    agenda:agendaReducer
 });
