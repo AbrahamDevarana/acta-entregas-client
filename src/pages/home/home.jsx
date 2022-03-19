@@ -3,7 +3,7 @@ import Button from "../../components/button";
 
 
 
-const Home = () => {
+const Busqueda = () => {
 
     const navigate = useNavigate()
 
@@ -19,4 +19,4 @@ const Home = () => {
      );
 }
  
-export default Home;
+export default Busqueda;

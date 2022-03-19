@@ -20,8 +20,12 @@ module.exports = {
         'devarana-pollito' : '#ffdea4',
         'devarana-salmon' : '#fabcab',
         'devarana-button' : '#5187B7',
-        'light-blue' : '#E0E3EC'
-    },
+        'light-blue' : '#E0E3EC',
+      },
+      transitionProperty: {
+        'height': 'height',
+        'spacing': 'margin, padding',
+      }
     },
   },
   plugins: [],

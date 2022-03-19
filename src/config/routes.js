@@ -1,9 +1,8 @@
 import LayoutApp from '../layouts/LayoutApp'
-import Inicio from '../pages/home'
+import Registro from '../pages/home/registro'
 import Home from '../pages/home/home'
 import PlanoDepartamento from '../pages/home/departamento'
 import Listado from '../pages/home/listado'
-
 
 import LayoutLogin from '../layouts/LayoutLogin'
 import Login from '../pages/auth/Login'
@@ -25,6 +24,7 @@ import AdminUsuarioEdit from '../pages/admin/usuarios/edit'
 
 import Error404 from '../pages/Error404'
 import AdminCalendar from '../components/calendar'
+
 
 
 
@@ -112,10 +112,10 @@ const routesClient = [
     {
         path: "/",
         layout: LayoutApp,
-        component: Inicio,
+        component: Registro,
     },
     {
-        path: "/inicio",
+        path: "/comenzar",
         layout: LayoutApp,
         component: Home,
     },

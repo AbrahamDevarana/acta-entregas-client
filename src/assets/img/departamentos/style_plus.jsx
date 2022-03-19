@@ -12064,21 +12064,21 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/Sf
 vV/8pv8Aceebo//Z" transform="matrix(1 0 0 1 -0.5 -0.5)">
 </image>
-<polygon id="vestíbulo" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent" points="1614.9,2013 1614.9,1990.1 1703.1,1990.1 1703.1,1780.1 2171.1,1780 2171.1,1619 
+<polygon id="vestíbulo" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" points="1614.9,2013 1614.9,1990.1 1703.1,1990.1 1703.1,1780.1 2171.1,1780 2171.1,1619 
 	1703.1,1619 1703.1,1483.3 1498.5,1483.3 1498.7,1580 1408.8,1580 1408.8,2012.9 "/>
-<rect id="lavado" onClick={ (e) => zonaSeleccion(e)} x="2171.1" y="1619" className="st0 fill-transparent" width="363.8" height="371.1"/>
-<polygon id="medio-bano" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent" points="2145.7,1805.6 2034.6,1805.6 2034.6,1780.9 1891.2,1780.1 1890.4,1805.6 
+<rect id="lavado" onClick={ (e) => zonaSeleccion(e)} x="2171.1" y="1619" className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" width="363.8" height="371.1"/>
+<polygon id="medio-bano" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" points="2145.7,1805.6 2034.6,1805.6 2034.6,1780.9 1891.2,1780.1 1890.4,1805.6 
 	1728.5,1805.6 1728.5,1990.1 2145.7,1990.1 "/>
-<rect id="tv" onClick={ (e) => zonaSeleccion(e)} x="701.6" y="1580" className="st0 fill-transparent" width="707.2" height="410"/>
-<rect id="ban-secundaria" onClick={ (e) => zonaSeleccion(e)} x="1201.9" y="1130.6" className="st0 fill-transparent" width="271.3" height="424.6"/>
-<polygon id="secundaria" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent" points="1175,1580 1015,1580 1015,1554.6 888.2,1554.6 888.2,540.4 1473.2,540.5 
+<rect id="tv" onClick={ (e) => zonaSeleccion(e)} x="701.6" y="1580" className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" width="707.2" height="410"/>
+<rect id="ban-secundaria" onClick={ (e) => zonaSeleccion(e)} x="1201.9" y="1130.6" className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" width="271.3" height="424.6"/>
+<polygon id="secundaria" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" points="1175,1580 1015,1580 1015,1554.6 888.2,1554.6 888.2,540.4 1473.2,540.5 
 	1473.2,1105.2 1183.7,1105.2 1183.7,1130.6 1201.9,1130.6 1201.9,1273.7 1176.5,1273.7 "/>
-<rect id="terraza"onClick={ (e) => zonaSeleccion(e)}  x="237.8" y="118.1" className="st0 fill-transparent" width="2270.8" height="422.3"/>
-<polygon id="principal" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent" points="701.6,1215.4 237.8,1215.4 237.8,540.4 862.7,540.4 862.7,1580 701.6,1580 "/>
-<polygon id="vestidor" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent" points="701.6,1342.6 599.9,1342.6 599.9,1240.8 197.1,1240.8 198.4,1988.8 676.2,1990.1 
+<rect id="terraza"onClick={ (e) => zonaSeleccion(e)}  x="237.8" y="118.1" className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" width="2270.8" height="422.3"/>
+<polygon id="principal" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" points="701.6,1215.4 237.8,1215.4 237.8,540.4 862.7,540.4 862.7,1580 701.6,1580 "/>
+<polygon id="vestidor" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" points="701.6,1342.6 599.9,1342.6 599.9,1240.8 197.1,1240.8 198.4,1988.8 676.2,1990.1 
 	676.2,1483.3 701.6,1486.7 "/>
-<rect id="Sala-comedor" onClick={ (e) => zonaSeleccion(e)} x="1498.5" y="540.4" className="st0 fill-transparent" width="1010.1" height="503.7"/>
-<polygon id="cocina" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent" points="2534.9,1483.3 2534.9,1305.3 2508.6,1305.3 2508.6,1044.1 1498.5,1044.1 1498.5,1483.3 
+<rect id="Sala-comedor" onClick={ (e) => zonaSeleccion(e)} x="1498.5" y="540.4" className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" width="1010.1" height="503.7"/>
+<polygon id="cocina" onClick={ (e) => zonaSeleccion(e)} className="st0 fill-transparent cursor-pointer hover:fill-devarana-blue hover:opacity-40" points="2534.9,1483.3 2534.9,1305.3 2508.6,1305.3 2508.6,1044.1 1498.5,1044.1 1498.5,1483.3 
 	1727.7,1483.6 1728.5,1593.5 2388.2,1593.5 2388.2,1484.7 "/>
 </svg>
         </>

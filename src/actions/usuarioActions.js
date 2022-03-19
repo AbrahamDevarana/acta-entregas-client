@@ -28,7 +28,10 @@ export function createNewUsuarioAction(usuario){
         clientAxios.post('usuarios', usuario)
         .then( response => {
             dispatch(addUsuarioSuccess(response.data.usuario))
-            dispatch(redirectTo())
+        
+            if(!usuario.clientForm){
+                dispatch(redirectTo())
+            }
         })
         .catch( error => {
             dispatch(addUsuarioError(error.response.data))
