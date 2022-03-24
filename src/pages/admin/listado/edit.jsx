@@ -1,6 +1,7 @@
 import Input from '../../../components/input'
 import Select from '../../../components/select'
 import Button from '../../../components/button';
+import Spinner from '../../../components/spinner';
 import ErrorDisplay from '../../../components/errors';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 
@@ -17,6 +18,7 @@ const AdminListadoEdit = () => {
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector ( state => state.listado.errors )
     const editListado = useSelector( state => state.listado.edit)
+    const loading = useSelector( state => state.listado.loading)
     const redirect = useSelector( state => state.listado.redirectTo)
 
     if(redirect){
@@ -34,6 +36,7 @@ const AdminListadoEdit = () => {
             dispatch(editListadoAction(params.id))
         }
         setListado(editListado)
+        // eslint-disable-next-line 
     }, [editListado])
 
     const { descripcion, tipoListado } = listado
@@ -58,6 +61,8 @@ const AdminListadoEdit = () => {
         dispatch(hideAlertAction())
         dispatch(updateListadoAction(listado))
     }
+
+    if(loading) return <Spinner/>
 
     return ( 
     <>

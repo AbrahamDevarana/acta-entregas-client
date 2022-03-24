@@ -24,6 +24,7 @@ module.exports = {
       },
       transitionProperty: {
         'height': 'height',
+        'width': 'width',
         'spacing': 'margin, padding',
       }
     },

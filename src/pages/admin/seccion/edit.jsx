@@ -1,6 +1,6 @@
 import Input from '../../../components/input'
-import Select from '../../../components/select'
 import Button from '../../../components/button';
+import Spinner from '../../../components/spinner'
 import ErrorDisplay from '../../../components/errors';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 
@@ -19,6 +19,7 @@ const AdminSeccionEdit = () => {
     const editSeccion = useSelector( state => state.seccion.edit)
     const redirect = useSelector( state => state.seccion.redirectTo)
     const listado = useSelector (state => state.listado.listado)
+    const loading = useSelector (state => state.listado.loading)
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const AdminSeccionEdit = () => {
         }
         setSeccion({id:editSeccion.id, descripcion : editSeccion.descripcion, lista: editSeccion.listado? editSeccion.listado.map( item => `${item.id}` ) : null })
         dispatch(getListadosAction())
+        // eslint-disable-next-line 
     }, [editSeccion])
 
     const { descripcion } = seccion
@@ -86,6 +88,8 @@ const AdminSeccionEdit = () => {
         dispatch(hideAlertAction())
         dispatch(updateSeccionAction(seccion))
     }
+
+    if(loading) return <Spinner/>
 
     return ( 
     <>

@@ -19,19 +19,25 @@ import {
     REDIRECT
 } from '../types'
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 // Create 
 
-export function createNewUsuarioAction(usuario){
-    return dispatch => {
+export function createNewUsuarioAction(usuario, form){
+    return async dispatch => {
         dispatch(addUsuario())
-        clientAxios.post('usuarios', usuario)
-        .then( response => {
-            dispatch(addUsuarioSuccess(response.data.usuario))
-        
-            if(!usuario.clientForm){
-                dispatch(redirectTo())
-            }
+        await clientAxios.post('/usuarios', usuario)
+        .then( async response => {
+            await axios({ url: `${process.env.REACT_APP_URL}/fotoPerfil/${response.data.usuario.id}`, method:"POST", data:form, headers: {"Content-Type": "multipart/form-data"}}).
+            then( response => {
+                console.log(response);
+                dispatch(addUsuarioSuccess(response.data.usuario))
+                if(!usuario.clientForm){
+                    dispatch(redirectTo())
+                }
+            }).catch( error => {
+                dispatch(addUsuarioError(error.response.data))
+            }) 
         })
         .catch( error => {
             dispatch(addUsuarioError(error.response.data))
@@ -120,13 +126,20 @@ const editUsuarioError = payload => ({
 
 // Update Usuario
 
-export function updateUsuarioAction(usuario){
+export function updateUsuarioAction(usuario, form){
     return async dispatch => {
         dispatch(updateUsuario())
         await clientAxios.put(`/usuarios/${usuario.id}`, usuario)
-        .then( response => {
-            dispatch(updateUsuarioSuccess(response.data.usuario))
-            dispatch(redirectTo())
+        .then( async response => {
+            await axios({ url: `${process.env.REACT_APP_URL}/fotoPerfil/${response.data.usuario.id}`, method:"POST", data:form, headers: {"Content-Type": "multipart/form-data"}})
+            .then( result => {
+                dispatch(updateUsuarioSuccess(result.data.usuario))
+                dispatch(redirectTo())    
+            })
+            .catch( error => {
+                dispatch(updateUsuarioError(error.response.data))
+            })
+            
         })
         .catch( error => {
             dispatch(updateUsuarioError(error.response.data))

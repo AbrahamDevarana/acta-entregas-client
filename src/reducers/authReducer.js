@@ -19,7 +19,7 @@ export default function foo (state = initialState, action){
                 ...state,
                 auth:true,
                 loading:false,
-                token:true,
+                token: `Bearer ${action.payload.access_token}`,
                 errors:null
             }
         case LOGIN_ERROR:

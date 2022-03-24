@@ -31,7 +31,7 @@ export function getUserInfo() {
         if( token ){
             tokenAuth(token)
         }else{
-            return null
+            tokenAuth('')
         }
         await clientAxios.get('user')
         .then( response => {

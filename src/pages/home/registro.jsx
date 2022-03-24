@@ -5,7 +5,7 @@ import ErrorDisplay from "../../components/errors";
 import Button from "../../components/button";
 import Input from "../../components/input";
 import Select from "../../components/select";
-import { getDepartamentosAction } from "../../actions/departamentoActions";
+import { getViviendasAction } from "../../actions/viviendaActions";
 
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 
@@ -14,22 +14,22 @@ const Registro = () => {
 
     const dispatch = useDispatch()
     
-    const departamentos = useSelector( state => state.departamento.departamento)
+    const viviendas = useSelector( state => state.vivienda.vivienda)
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector( state => state.seccion.errors)
     
     const [dropDown, setDropDown] = useState(false)
-    const [departamentoList, setDepartamentoList] = useState({})
+    const [viviendaList, setViviendaList] = useState({})
     const [cliente, setCliente] = useState({
         name: '',
         email: '',
-        departamento: '',
+        vivienda: '',
         clienteForm: true,
         asesor: '',
         tipoEntrega: ''
     });
 
-    const {name, email, departamento, asesor, tipoEntrega} = cliente
+    const {name, email, vivienda, asesor, tipoEntrega} = cliente
 
     const handleChange = e => {
         setCliente({
@@ -39,11 +39,11 @@ const Registro = () => {
     }
 
     useEffect ( () => {
-        setDepartamentoList(departamentos)
-    }, [departamentos])
+        setViviendaList(viviendas)
+    }, [viviendas])
 
     const handleLoad = () => {
-        dispatch(getDepartamentosAction())
+        dispatch(getViviendasAction())
         setDropDown(!dropDown)
     }
 
@@ -52,14 +52,14 @@ const Registro = () => {
     }
 
     const filter = (word) => {
-        const result = departamentos.filter( item => item.folio.includes(word))
-        setDepartamentoList(result)
+        const result = viviendas.filter( item => item.folio.includes(word))
+        setViviendaList(result)
     }
 
-    const handleSelect = (departamento) => {
+    const handleSelect = (vivienda) => {
         setCliente({
             ...cliente,
-            departamento
+            vivienda
         });
         setDropDown(false)
     }
@@ -67,7 +67,7 @@ const Registro = () => {
     const handleSubmit = e => {
         e.preventDefault()
 
-        if( email.trim() === '' || name.trim() === '' || departamento !== ''){
+        if( email.trim() === '' || name.trim() === '' || vivienda !== ''){
             const alert = {
                 msg: "Todos los campos requeridos.",
                 classes: "text-center font-bold uppercase text-red-500"
@@ -82,7 +82,7 @@ const Registro = () => {
                 name: '',
                 email: '',
                 clienteForm: true,
-                departamento: '',
+                vivienda: '',
                 asesor: '',
                 tipoEntrega: ''
             })
@@ -108,14 +108,14 @@ const Registro = () => {
                         </div>
                         <div className="col-span-1">
                             <label htmlFor="name" className="text-devarana-pearl"> Asesor </label>
-                            <Select className="block w-full" defaultValue={'DEFAULT'} name="asesor">
+                            <Select className="block w-full" defaultValue={'DEFAULT'} name="asesor" value={asesor}>
                                 <option value="DEFAULT" disabled> -- Seleccione un :::: -- </option>
                                 <option value=""> Estefanía </option>
                                 <option value=""> Antonio </option>
                             </Select>
                         </div>
                         <div className="col-span-1">
-                            <label htmlFor="name" className="text-devarana-pearl" name="tipoEntrega"> Tipo Entrega </label>
+                            <label htmlFor="name" className="text-devarana-pearl" name="tipoEntrega" value={tipoEntrega}> Tipo Entrega </label>
                             <Select className="block w-full" defaultValue={'DEFAULT'}>
                                 <option value="DEFAULT" disabled> -- Seleccione tipo de entrega -- </option>
                                 <option value="">Demo</option>
@@ -126,12 +126,12 @@ const Registro = () => {
 
 
                         <div className="col-span-2 group">
-                            <Button onClick={handleLoad} className="text-devarana-pearl" type="button"> Buscar Departamento   { dropDown ? <AiOutlineUp className="inline" /> : <AiOutlineDown className="inline" /> }  </Button>
+                            <Button onClick={handleLoad} className="text-devarana-pearl" type="button"> Buscar Vivienda   { dropDown ? <AiOutlineUp className="inline" /> : <AiOutlineDown className="inline" /> }  </Button>
                             <div className={`w-full bg-white bordershadow-sm rounded-sm my-2 p-2 ${ dropDown? "block" : "hidden" }`}>
-                                <Input onChange={handleSearch} className="w-full border rounded-md px-3 py-2 shadow-md my-2" placeholder="Buscar Departamento"/>
+                                <Input onChange={handleSearch} className="w-full border rounded-md px-3 py-2 shadow-md my-2" placeholder="Buscar Vivienda"/>
                                 <ul className="max-h-32 overflow-y-scroll">
-                                    {departamentoList && departamentoList.length > 0?
-                                        departamentoList.map(( item, i ) => (
+                                    {viviendaList && viviendaList.length > 0?
+                                        viviendaList.map(( item, i ) => (
                                             <li key={i} onClick={() => handleSelect(item)} className="hover:bg-gray-200 cursor-pointer"> {item.folio} </li>
                                         ))
                                         :
@@ -139,8 +139,8 @@ const Registro = () => {
                                     }
                                 </ul>
                             </div>
-                            { cliente.departamento? 
-                                <h2 className="text-devarana-pearl font-mulish py-4">Departamento Seleccionado: {cliente.departamento.folio}</h2>
+                            { cliente.vivienda? 
+                                <h2 className="text-devarana-pearl font-mulish py-4">Vivienda Seleccionado: {cliente.vivienda.folio}</h2>
                                 :
                                 null
                             }

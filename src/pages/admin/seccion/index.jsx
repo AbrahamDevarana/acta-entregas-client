@@ -3,18 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { deleteSeccionAction, editSeccionAction, getSeccionesAction, cleanSeccionAction } from '../../../actions/seccionActions';
 import Button from '../../../components/button';
+import Spinner from '../../../components/spinner';
 import Table from '../../../components/Table'
 
 
 const AdminSeccion = () => {
 
     const seccion = useSelector(state => state.seccion.seccion)
+    const loading = useSelector(state => state.seccion.loading)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect ( ()=> { 
         dispatch(getSeccionesAction())
         dispatch(cleanSeccionAction())
+        // eslint-disable-next-line 
     }, [])
 
     const setEdit = (id) => {
@@ -29,6 +32,8 @@ const AdminSeccion = () => {
         {title: 'ID', field: 'id', cellStyle: { 'textAlign':'center', width: '10%' }}, 
         {title: 'Descripción', field: 'descripcion', cellStyle: { 'textAlign':'center', width: '80%'}},
     ]
+
+    if(loading) return <Spinner/>
 
     return ( 
         <>

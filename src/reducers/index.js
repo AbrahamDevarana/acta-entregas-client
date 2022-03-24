@@ -5,9 +5,10 @@ import alertReducer from './alertReducer'
 import listadoReducer from './listadoReducer'
 import seccionReducer from './seccionReducer'
 import usuarioReducer from './userReducer'
-import departamentoReducer from './departamentoReducer'
+import viviendaReducer from './viviendaReducer'
 import agendaReducer from './agendaReducer'
 import entregaReducer from './entregaReducer'
+import desarrolloReducer from './desarrolloReducer'
 
 export default combineReducers({
     auth:authReducer,
@@ -15,7 +16,8 @@ export default combineReducers({
     listado:listadoReducer,
     seccion:seccionReducer,
     usuarios:usuarioReducer,
-    departamento:departamentoReducer,
+    vivienda:viviendaReducer,
     agenda:agendaReducer,
-    entrega:entregaReducer
+    entrega:entregaReducer,
+    desarrollo:desarrolloReducer
 });

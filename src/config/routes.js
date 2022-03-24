@@ -9,8 +9,8 @@ import Login from '../pages/auth/Login'
 
 import LayoutAdmin from '../layouts/LayoutAdmin'
 import AdminHome from '../pages/admin'
-import AdminDepartamentos from '../pages/admin/departamentos'
-import AdminDepartamentosEdit from '../pages/admin/departamentos/edit'
+import AdminViviendas from '../pages/admin/viviendas'
+import AdminViviendasEdit from '../pages/admin/viviendas/edit'
 import AdminSeccion from '../pages/admin/seccion'
 import AdminListado from '../pages/admin/listado'
 import AdminListadoCreate from '../pages/admin/listado/create'
@@ -20,13 +20,12 @@ import AdminSeccionEdit from '../pages/admin/seccion/edit'
 import AdminUsuario from '../pages/admin/usuarios'
 import AdminUsuarioCreate from '../pages/admin/usuarios/create'
 import AdminUsuarioEdit from '../pages/admin/usuarios/edit'
-
+import AdminCalendar from '../components/calendar'
+import AdminDesarrollos from '../pages/admin/desarrollos'
+import AdminDesarrollosCreate from '../pages/admin/desarrollos/create'
+import AdminDesarrollosEdit from '../pages/admin/desarrollos/edit'
 
 import Error404 from '../pages/Error404'
-import AdminCalendar from '../components/calendar'
-
-
-
 
 const routesAdmin = [
     {
@@ -50,14 +49,14 @@ const routesAdmin = [
         component: AdminUsuarioEdit,
     },
     {
-        path: "/admin/departamentos",
+        path: "/admin/viviendas",
         layout: LayoutAdmin,
-        component: AdminDepartamentos,
+        component: AdminViviendas,
     },
     {
-        path: "/admin/departamentos/edit/:id",
+        path: "/admin/viviendas/edit/:id",
         layout: LayoutAdmin,
-        component: AdminDepartamentosEdit,
+        component: AdminViviendasEdit,
     },
     {
         path: "/admin/seccion",
@@ -91,9 +90,24 @@ const routesAdmin = [
         component: AdminListadoEdit,
     },
     {
-        path: "/admin/calendar",
+        path: "/admin/calendario",
         layout: LayoutAdmin,
         component: AdminCalendar,
+    },
+    {
+        path: "/admin/desarrollos",
+        layout: LayoutAdmin,
+        component: AdminDesarrollos,
+    },
+    {
+        path: "/admin/desarrollos/create",
+        layout: LayoutAdmin,
+        component: AdminDesarrollosCreate,
+    },
+    {
+        path: "/admin/desarrollos/edit/:id",
+        layout: LayoutAdmin,
+        component: AdminDesarrollosEdit,
     },
 
     
@@ -120,12 +134,12 @@ const routesClient = [
         component: Home,
     },
     {
-        path: "/departamento",
+        path: "/vivienda",
         layout: LayoutApp,
         component: PlanoDepartamento,
     },
     {
-        path: "/departamento/listado",
+        path: "/vivienda/listado",
         layout: LayoutApp,
         component: Listado,
     },

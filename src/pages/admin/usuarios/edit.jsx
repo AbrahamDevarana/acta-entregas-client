@@ -1,5 +1,6 @@
 import Input from '../../../components/input'
 import Button from '../../../components/button';
+import Spinner from '../../../components/spinner'
 import ErrorDisplay from '../../../components/errors';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 
@@ -16,6 +17,7 @@ const AdminUsuarioEdit = () => {
     const errors = useSelector ( state => state.usuarios.errors )
     const editUsuario = useSelector( state => state.usuarios.edit)
     const redirect = useSelector( state => state.usuarios.redirectTo)
+    const loading = useSelector( state => state.usuarios.loading)
 
     const navigate = useNavigate()
 
@@ -30,23 +32,45 @@ const AdminUsuarioEdit = () => {
         last_name : '',
         email : '',
         password : '',
-        password_confirmation : ''
+        password_confirmation : '',
+        foto: ''
     })
+
+    const [picture, setFoto] = useState(false)
+    
 
     useEffect( () => {
         if(!editUsuario){
             dispatch(editUsuarioAction(params.id))
         }
         setUsuario(editUsuario)
+        // eslint-disable-next-line 
     }, [editUsuario])
 
-    const { name, last_name, email, password, password_confirmation } = usuario
+    const { name, last_name, email, password, password_confirmation, foto } = usuario
+
 
     const handleChange = e => {
         setUsuario({
             ...usuario,
             [e.target.name]:e.target.value
         })
+    }
+
+
+    const saveFile = e => {
+        setFoto(e.target.files[0])
+
+        let reader = new FileReader()
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = function(){
+            let preview = document.getElementById('preview'),
+            image = document.createElement("img")
+            image.classList.add("rounded-full")
+            image.src = reader.result
+            preview.innerHTML = "";
+            preview.append(image)
+        }
     }
 
     const handleSubmit = e => {
@@ -59,11 +83,15 @@ const AdminUsuarioEdit = () => {
             dispatch(showAlertAction(alert))
             return
         }
+
+        const form = new FormData()
+        form.append("foto", picture)
+
         dispatch(hideAlertAction())
-        dispatch(updateUsuarioAction(usuario))
+        dispatch(updateUsuarioAction(usuario, form))
 
     }
-
+    if(loading) return <Spinner/>
     return ( 
     <>
     <div className='max-w-[600px] m-auto w-full px-5 py-10'>
@@ -71,6 +99,14 @@ const AdminUsuarioEdit = () => {
         <ErrorDisplay alert={alert} errors={errors} />
 
         <form action="" onSubmit={handleSubmit}>
+
+            <div className="py-2 m-auto w-[200px]" id='preview'>
+                <img className='rounded-full h-[100px] w-[100px] m-auto' src={`${process.env.REACT_APP_URL}/picture/${foto}`}></img>   
+            </div>
+            <div className='py-2'>
+                <label htmlFor="foto" className='text-devarana-midnight'>Fotografía</label>  
+                <Input type="file" id="foto" accept=".pdf,.jpg,.png" className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="photo" onChange={saveFile} ></Input>
+            </div>
             <div className='py-2'>
                 <label htmlFor="" className='text-devarana-midnight'>Nombre</label>    
                 <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="name" onChange={handleChange} value={name}></Input>

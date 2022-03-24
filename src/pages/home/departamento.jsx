@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import StylePlusPlano from "../../assets/img/departamentos/style_plus"; 
 
 const PlanoDepartamento = () => {

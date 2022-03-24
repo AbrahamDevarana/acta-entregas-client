@@ -25,6 +25,7 @@ const AdminSeccionCreate = () => {
     useEffect( () => {
         dispatch(getListadosAction())
         // setCheckedState(new Array(listado.length).fill(false))
+        // eslint-disable-next-line 
     }, [])
 
     

@@ -3,18 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { deleteListadoAction, editListadoAction, getListadosAction, cleanListadoAction } from '../../../actions/listadoActions';
 import Button from '../../../components/button';
+import Spinner from '../../../components/spinner';
 import Table from '../../../components/Table'
 
 
 const AdminListado = () => {
 
     const listado = useSelector(state => state.listado.listado)
+    const loading = useSelector(state => state.listado.loading)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect ( ()=> { 
         dispatch(getListadosAction())
         dispatch(cleanListadoAction())
+        // eslint-disable-next-line 
     }, [])
 
     const setEdit = (id) => {
@@ -30,6 +33,8 @@ const AdminListado = () => {
         {title: 'Descripción', field: 'descripcion', cellStyle: { 'textAlign':'center', width: '60%'}},
         {title: 'Tipo', field: 'tipoListado', cellStyle: { 'textAlign':'center', width: '30%'}, render: rowData => rowData.tipoListado  === "1" ? "Cliente" : rowData.tipoListado === "2" ? "Especial" : "Calidad" },
     ]
+
+    if(loading) return <Spinner/>
 
     return ( 
         <>
