@@ -92,7 +92,7 @@ const Registro = () => {
     }
 
     return ( 
-        <div className="bg-devarana-gray h-screen w-screen flex flex-col transition-all duration-1000 ease-in-out">
+        <div className="bg-devarana-graph h-screen w-screen flex flex-col transition-all duration-1000 ease-in-out">
             <div className="m-auto max-w-[800px] w-full transition-all duration-1000 ease-in-out">
                 <ErrorDisplay alert={alert} errors={errors} />
                 <h1 className="text-white text-center font-mulish text-3xl pb-10"> Registrar Cliente </h1>

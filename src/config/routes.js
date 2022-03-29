@@ -24,6 +24,10 @@ import AdminCalendar from '../components/calendar'
 import AdminDesarrollos from '../pages/admin/desarrollos'
 import AdminDesarrollosCreate from '../pages/admin/desarrollos/create'
 import AdminDesarrollosEdit from '../pages/admin/desarrollos/edit'
+import AdminPrototipo from '../pages/admin/prototipo'
+import AdminPrototipoCreate from '../pages/admin/prototipo/create'
+import AdminPrototipoEdit from '../pages/admin/prototipo/edit'
+import AdminEtapasView from '../pages/admin/etapa/view'
 
 import Error404 from '../pages/Error404'
 
@@ -49,12 +53,12 @@ const routesAdmin = [
         component: AdminUsuarioEdit,
     },
     {
-        path: "/admin/viviendas",
+        path: "/admin/residencias",
         layout: LayoutAdmin,
         component: AdminViviendas,
     },
     {
-        path: "/admin/viviendas/edit/:id",
+        path: "/admin/residencias/edit/:id",
         layout: LayoutAdmin,
         component: AdminViviendasEdit,
     },
@@ -109,7 +113,26 @@ const routesAdmin = [
         layout: LayoutAdmin,
         component: AdminDesarrollosEdit,
     },
-
+    {
+        path: "/admin/prototipo",
+        layout: LayoutAdmin,
+        component: AdminPrototipo,
+    },
+    {
+        path: "/admin/prototipo/create",
+        layout: LayoutAdmin,
+        component: AdminPrototipoCreate,
+    },
+    {
+        path: "/admin/prototipo/edit/:id",
+        layout: LayoutAdmin,
+        component: AdminPrototipoEdit,
+    },
+    {
+        path: "/admin/etapas/:id",
+        layout: LayoutAdmin,
+        component: AdminEtapasView,
+    },
     
 ]
 

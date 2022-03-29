@@ -1,25 +1,25 @@
 import {
-    CREATE_USUARIO,
-    CREATE_USUARIO_SUCCESS,
-    CREATE_USUARIO_ERROR,
-    VIEW_USUARIO,
-    VIEW_USUARIO_SUCCESS,
-    VIEW_USUARIO_ERROR,
-    DELETE_USUARIO,
-    DELETE_USUARIO_SUCCESS,
-    DELETE_USUARIO_ERROR,
-    EDIT_USUARIO,
-    EDIT_USUARIO_SUCCESS,
-    EDIT_USUARIO_ERROR,
-    UPDATE_USUARIO,
-    UPDATE_USUARIO_SUCCESS,
-    UPDATE_USUARIO_ERROR,
-    CLEAN_USUARIO,
+    CREATE_PROTOTIPO,
+    CREATE_PROTOTIPO_SUCCESS,
+    CREATE_PROTOTIPO_ERROR,
+    VIEW_PROTOTIPO,
+    VIEW_PROTOTIPO_SUCCESS,
+    VIEW_PROTOTIPO_ERROR,
+    DELETE_PROTOTIPO,
+    DELETE_PROTOTIPO_SUCCESS,
+    DELETE_PROTOTIPO_ERROR,
+    EDIT_PROTOTIPO,
+    EDIT_PROTOTIPO_SUCCESS,
+    EDIT_PROTOTIPO_ERROR,
+    UPDATE_PROTOTIPO,
+    UPDATE_PROTOTIPO_SUCCESS,
+    UPDATE_PROTOTIPO_ERROR,
+    CLEAN_PROTOTIPO,
     REDIRECT
 } from '../types'
 
 const initialState = {
-    usuarios: [],
+    prototipo: [],
     errors: false,
     loading: false,
     edit: false,
@@ -31,71 +31,70 @@ const initialState = {
 export default function foo (state = initialState, action ){
     switch (action.type) {
 
-        case CREATE_USUARIO:
-        case EDIT_USUARIO:
-        case UPDATE_USUARIO:
+        case CREATE_PROTOTIPO:
+        case EDIT_PROTOTIPO:
+        case UPDATE_PROTOTIPO:
             return {
                 ...state,
                 loading: action.payload, 
             }
-        case DELETE_USUARIO:
+        case DELETE_PROTOTIPO:
             return {
                 ...state,
                 loading: true,
                 delete: action.payload,
             }
-        case CREATE_USUARIO_SUCCESS:
+        case CREATE_PROTOTIPO_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                usuarios: [...state.usuarios, action.payload],
-                errors: false
+                prototipo: [...state.prototipo, action.payload],
+                errors: null
             }
-        case EDIT_USUARIO_SUCCESS:
+        case EDIT_PROTOTIPO_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                errors: false,
+                errors: null,
                 edit: action.payload,
                 edition: false
             }
-        case CREATE_USUARIO_ERROR:
-        case VIEW_USUARIO_ERROR:
-        case EDIT_USUARIO_ERROR:
-        case DELETE_USUARIO_ERROR:
-        case UPDATE_USUARIO_ERROR:
+        case CREATE_PROTOTIPO_ERROR:
+        case VIEW_PROTOTIPO_ERROR:
+        case EDIT_PROTOTIPO_ERROR:
+        case DELETE_PROTOTIPO_ERROR:
+        case UPDATE_PROTOTIPO_ERROR:
             return {
                 ...state,
                 loading: false,
                 errors: action.payload
             }
 
-        case VIEW_USUARIO:
+        case VIEW_PROTOTIPO:
             return {
                 ...state,
                 loading: action.payload,
             }
-        case VIEW_USUARIO_SUCCESS:
+        case VIEW_PROTOTIPO_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                usuarios: action.payload,
+                prototipo: action.payload,
                 error: false
             }
-        case UPDATE_USUARIO_SUCCESS:
+        case UPDATE_PROTOTIPO_SUCCESS:
             return {
                 ...state,
                 edit: false,
-                usuarios: state.usuarios.map ( item => item.id === action.payload.id ? item = action.payload : item )
+                prototipo: state.prototipo.map ( item => item.id === action.payload.id ? item = action.payload : item )
             }
-        case DELETE_USUARIO_SUCCESS:
+        case DELETE_PROTOTIPO_SUCCESS:
             return {
                 ...state,
-                usuarios: state.usuarios.filter( item => item.id !== state.delete ),
-                delete: null,
-                loading: false
+                prototipo: state.prototipo.filter( item => item.id !== state.delete ),
+                delete: null
             }
-        case CLEAN_USUARIO:
+        case CLEAN_PROTOTIPO:
             return {
                 ...state,
                 errors: false,
@@ -103,11 +102,13 @@ export default function foo (state = initialState, action ){
                 delete: null,
                 redirectTo: false
             }
+
         case REDIRECT:
             return {
                 ...state,
                 redirectTo: action.payload
             }
+        
         default: 
             return state
     }

@@ -6,4 +6,6 @@ const clientAxios = axios.create({
     // headers: {"Content-Type": "multipart/form-data"}
 })
 
+clientAxios.defaults.headers.post['Content-Type'] = "multipart/form-data"
+
 export default clientAxios

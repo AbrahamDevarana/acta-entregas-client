@@ -1,25 +1,25 @@
 import {
-    CREATE_USUARIO,
-    CREATE_USUARIO_SUCCESS,
-    CREATE_USUARIO_ERROR,
-    VIEW_USUARIO,
-    VIEW_USUARIO_SUCCESS,
-    VIEW_USUARIO_ERROR,
-    DELETE_USUARIO,
-    DELETE_USUARIO_SUCCESS,
-    DELETE_USUARIO_ERROR,
-    EDIT_USUARIO,
-    EDIT_USUARIO_SUCCESS,
-    EDIT_USUARIO_ERROR,
-    UPDATE_USUARIO,
-    UPDATE_USUARIO_SUCCESS,
-    UPDATE_USUARIO_ERROR,
-    CLEAN_USUARIO,
+    CREATE_ETAPA,
+    CREATE_ETAPA_SUCCESS,
+    CREATE_ETAPA_ERROR,
+    VIEW_ETAPA,
+    VIEW_ETAPA_SUCCESS,
+    VIEW_ETAPA_ERROR,
+    DELETE_ETAPA,
+    DELETE_ETAPA_SUCCESS,
+    DELETE_ETAPA_ERROR,
+    EDIT_ETAPA,
+    EDIT_ETAPA_SUCCESS,
+    EDIT_ETAPA_ERROR,
+    UPDATE_ETAPA,
+    UPDATE_ETAPA_SUCCESS,
+    UPDATE_ETAPA_ERROR,
+    CLEAN_ETAPA,
     REDIRECT
 } from '../types'
 
 const initialState = {
-    usuarios: [],
+    etapa: [],
     errors: false,
     loading: false,
     edit: false,
@@ -31,71 +31,70 @@ const initialState = {
 export default function foo (state = initialState, action ){
     switch (action.type) {
 
-        case CREATE_USUARIO:
-        case EDIT_USUARIO:
-        case UPDATE_USUARIO:
+        case CREATE_ETAPA:
+        case EDIT_ETAPA:
+        case UPDATE_ETAPA:
             return {
                 ...state,
                 loading: action.payload, 
             }
-        case DELETE_USUARIO:
+        case DELETE_ETAPA:
             return {
                 ...state,
                 loading: true,
                 delete: action.payload,
             }
-        case CREATE_USUARIO_SUCCESS:
+        case CREATE_ETAPA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                usuarios: [...state.usuarios, action.payload],
-                errors: false
+                etapa: [...state.etapa, action.payload],
+                errors: null
             }
-        case EDIT_USUARIO_SUCCESS:
+        case EDIT_ETAPA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                errors: false,
+                errors: null,
                 edit: action.payload,
                 edition: false
             }
-        case CREATE_USUARIO_ERROR:
-        case VIEW_USUARIO_ERROR:
-        case EDIT_USUARIO_ERROR:
-        case DELETE_USUARIO_ERROR:
-        case UPDATE_USUARIO_ERROR:
+        case CREATE_ETAPA_ERROR:
+        case VIEW_ETAPA_ERROR:
+        case EDIT_ETAPA_ERROR:
+        case DELETE_ETAPA_ERROR:
+        case UPDATE_ETAPA_ERROR:
             return {
                 ...state,
                 loading: false,
                 errors: action.payload
             }
 
-        case VIEW_USUARIO:
+        case VIEW_ETAPA:
             return {
                 ...state,
                 loading: action.payload,
             }
-        case VIEW_USUARIO_SUCCESS:
+        case VIEW_ETAPA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                usuarios: action.payload,
+                etapa: action.payload,
                 error: false
             }
-        case UPDATE_USUARIO_SUCCESS:
+        case UPDATE_ETAPA_SUCCESS:
             return {
                 ...state,
                 edit: false,
-                usuarios: state.usuarios.map ( item => item.id === action.payload.id ? item = action.payload : item )
+                etapa: state.etapa.map ( item => item.id === action.payload.id ? item = action.payload : item )
             }
-        case DELETE_USUARIO_SUCCESS:
+        case DELETE_ETAPA_SUCCESS:
             return {
                 ...state,
-                usuarios: state.usuarios.filter( item => item.id !== state.delete ),
-                delete: null,
-                loading: false
+                etapa: state.etapa.filter( item => item.id !== state.delete ),
+                delete: null
             }
-        case CLEAN_USUARIO:
+        case CLEAN_ETAPA:
             return {
                 ...state,
                 errors: false,
@@ -103,11 +102,13 @@ export default function foo (state = initialState, action ){
                 delete: null,
                 redirectTo: false
             }
+
         case REDIRECT:
             return {
                 ...state,
                 redirectTo: action.payload
             }
+        
         default: 
             return state
     }

@@ -6,7 +6,7 @@ import { createNewUsuarioAction } from '../../../actions/usuarioActions';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../../../components/errors';
-
+import Dropzone from '../../../components/dropzone';
 
 
 const AdminUsuarioCreate = () => {
@@ -39,20 +39,20 @@ const AdminUsuarioCreate = () => {
         })
     }
 
-    const saveFile = e => {
-        setFoto(e.target.files[0])
+    // const saveFile = e => {
+    //     setFoto(e.target.files[0])
 
-        let reader = new FileReader()
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = function(){
-            let preview = document.getElementById('preview'),
-            image = document.createElement("img")
-            image.classList.add("rounded-full")
-            image.src = reader.result
-            preview.innerHTML = "";
-            preview.append(image)
-        }
-    }
+    //     let reader = new FileReader()
+    //     reader.readAsDataURL(e.target.files[0]);
+    //     reader.onload = function(){
+    //         let preview = document.getElementById('preview'),
+    //         image = document.createElement("img")
+    //         image.classList.add("rounded-full")
+    //         image.src = reader.result
+    //         preview.innerHTML = "";
+    //         preview.append(image)
+    //     }
+    // }
 
 
     const handleSubmit = e => {
@@ -86,7 +86,7 @@ const AdminUsuarioCreate = () => {
                     </div>
                     <div className='py-2'>
                         <label htmlFor="foto" className='text-devarana-midnight'>Fotografía</label>  
-                        <Input type="file" id="foto" className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="photo" onChange={saveFile} ></Input>
+                        <Dropzone setFoto={setFoto} />
                     </div>
                     <div className='py-2'>
                         <label htmlFor="" className='text-devarana-midnight'>Nombre</label>    

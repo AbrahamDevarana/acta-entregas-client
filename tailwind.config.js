@@ -9,7 +9,6 @@ module.exports = {
           playfair: ['Playfair Display', 'sans-serif'],
       },
       colors: {
-        'devarana-gray' : '#494b65',
         'devarana-blue' : '#56739b',
         'devarana-babyblue' : '#a9c0e4',
         'devarana-pink' : '#d64767',
@@ -20,7 +19,6 @@ module.exports = {
         'devarana-pollito' : '#ffdea4',
         'devarana-salmon' : '#fabcab',
         'devarana-button' : '#5187B7',
-        'light-blue' : '#E0E3EC',
       },
       transitionProperty: {
         'height': 'height',

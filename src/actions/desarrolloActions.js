@@ -16,24 +16,28 @@ import {
     DELETE_DESARROLLO_SUCCESS,
     DELETE_DESARROLLO_ERROR,
     CLEAN_DESARROLLO,
-    REDIRECT
+    REDIRECT,
 } from '../types'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
 
 
 // Create 
 
-export function createNewDesarrolloAction(desarrollo){
-    return dispatch => {
+export function createNewDesarrolloAction(desarrollo, form){
+    return async dispatch => {
         dispatch(addDesarrollo())
-        clientAxios.post('desarrollo', desarrollo)
-        .then( response => {
-            console.log(response);
-            dispatch(addDesarrolloSuccess(response.data.desarrollo))
-            dispatch(redirectTo())
+        await clientAxios.post('/desarrollo', desarrollo)
+        .then( async response => {
+            await clientAxios.post(`desarrolloPortada/${response.data.desarrollo.id}`, form)
+            .then( response => {
+                dispatch(addDesarrolloSuccess(response.data.desarrollo))
+                dispatch(redirectTo())
+            }).catch( error => {
+                dispatch(addDesarrolloError(error.response.data))
+            }) 
         })
         .catch( error => {
+            console.log(error);
             dispatch(addDesarrolloError(error.response.data))
         }) 
     }
@@ -82,7 +86,7 @@ const getDesarrollosSuccess = payload => ({
 
 const getDesarrollosError = payload => ({
     type: VIEW_DESARROLLO_ERROR,
-    payload
+    payload 
 })
 
 
@@ -120,13 +124,19 @@ const editDesarrolloError = payload => ({
 
 // Update Desarrollo
 
-export function updateDesarrolloAction(desarrollo){
+export function updateDesarrolloAction(desarrollo, form){
     return async dispatch => {
         dispatch(updateDesarrollo())
         await clientAxios.put(`/desarrollo/${desarrollo.id}`, desarrollo)
-        .then( response => {
-            dispatch(updateDesarrolloSuccess(response.data.desarrollo))
-            dispatch(redirectTo())
+        .then( async response => {
+            await clientAxios.post(`desarrolloPortada/${response.data.desarrollo.id}`, form)
+            .then( response => {
+                dispatch(updateDesarrolloSuccess(response.data.desarrollo))
+                dispatch(redirectTo())
+            })
+            .catch( error => {
+                dispatch(updateDesarrolloError(error.response.data))
+            })
         })
         .catch( error => {
             dispatch(updateDesarrolloError(error.response.data))
@@ -217,3 +227,4 @@ export function redirectTo(){
         })
     }
 }
+

@@ -9,6 +9,8 @@ import viviendaReducer from './viviendaReducer'
 import agendaReducer from './agendaReducer'
 import entregaReducer from './entregaReducer'
 import desarrolloReducer from './desarrolloReducer'
+import prototipoReducer from './prototipoReducer'
+import etapaReducer from './etapaReducer'
 
 export default combineReducers({
     auth:authReducer,
@@ -19,5 +21,7 @@ export default combineReducers({
     vivienda:viviendaReducer,
     agenda:agendaReducer,
     entrega:entregaReducer,
-    desarrollo:desarrolloReducer
+    desarrollo:desarrolloReducer,
+    prototipo:prototipoReducer,
+    etapa: etapaReducer
 });

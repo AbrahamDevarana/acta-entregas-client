@@ -27,18 +27,25 @@ const baseStyle = {
     borderColor: '#ff1744'
   };
 
-const Dropzone = ({}) => {
+const Dropzone = ({setFoto, thumbS}) => {
 
+  const thumbSize = thumbS? thumbS : "w-36 pb-4"
 
-    const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState([]);
+  
+  const fileType = "image/jpeg, image/png, .svg"
 
-
-    const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback(acceptedFiles => {
+      const preview = document.getElementById("preview")
+      
+        if(preview){
+          preview.innerHTML = ""
+        }
+        
         setFiles(acceptedFiles.map(file => Object.assign(file, {
           preview: URL.createObjectURL(file)
         })));
-
-        console.log(acceptedFiles);
+        setFoto(acceptedFiles[0])
       }, []);
 
     const {
@@ -49,7 +56,7 @@ const Dropzone = ({}) => {
         isDragReject
     } = useDropzone({
         onDrop,
-        accept: 'image/jpeg, image/png',
+        accept: fileType,
         minSize: 0,
         maxSize: 2048000
     });
@@ -68,7 +75,7 @@ const Dropzone = ({}) => {
       const thumbs = files.map(file => (
         <div key={file.name}>
           <img
-            className="m-auto w-36 pb-4"
+            className={`m-auto  ${thumbSize}`}
             src={file.preview}
             alt={file.name}
           />
@@ -83,7 +90,6 @@ const Dropzone = ({}) => {
             <aside className="m-auto">
                 {thumbs}
             </aside>
-            <p>Subir Imagen</p>
             <div {...getRootProps({style})}>
                 <input {...getInputProps()} />
             <div>
@@ -96,5 +102,7 @@ const Dropzone = ({}) => {
         </section>
      );
 }
+
+
  
 export default Dropzone;

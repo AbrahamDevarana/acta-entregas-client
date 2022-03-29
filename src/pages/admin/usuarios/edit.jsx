@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { editUsuarioAction, updateUsuarioAction } from '../../../actions/usuarioActions';
 import { useEffect, useState } from 'react';
+import Dropzone from '../../../components/dropzone';
 
 const AdminUsuarioEdit = () => {
 
@@ -28,6 +29,7 @@ const AdminUsuarioEdit = () => {
     const dispatch = useDispatch();
 
     const [usuario, setUsuario ] = useState({
+        id:'',
         name : '',
         last_name : '',
         email : '',
@@ -47,7 +49,7 @@ const AdminUsuarioEdit = () => {
         // eslint-disable-next-line 
     }, [editUsuario])
 
-    const { name, last_name, email, password, password_confirmation, foto } = usuario
+    const { id, name, last_name, email, password, password_confirmation, foto } = usuario
 
 
     const handleChange = e => {
@@ -58,20 +60,20 @@ const AdminUsuarioEdit = () => {
     }
 
 
-    const saveFile = e => {
-        setFoto(e.target.files[0])
+    // const saveFile = e => {
+    //     setFoto(e.target.files[0])
 
-        let reader = new FileReader()
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = function(){
-            let preview = document.getElementById('preview'),
-            image = document.createElement("img")
-            image.classList.add("rounded-full")
-            image.src = reader.result
-            preview.innerHTML = "";
-            preview.append(image)
-        }
-    }
+    //     let reader = new FileReader()
+    //     reader.readAsDataURL(e.target.files[0]);
+    //     reader.onload = function(){
+    //         let preview = document.getElementById('preview'),
+    //         image = document.createElement("img")
+    //         image.classList.add("rounded-full")
+    //         image.src = reader.result
+    //         preview.innerHTML = "";
+    //         preview.append(image)
+    //     }
+    // }
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -100,13 +102,16 @@ const AdminUsuarioEdit = () => {
 
         <form action="" onSubmit={handleSubmit}>
 
+
             <div className="py-2 m-auto w-[200px]" id='preview'>
-                <img className='rounded-full h-[100px] w-[100px] m-auto' src={`${process.env.REACT_APP_URL}/picture/${foto}`}></img>   
+                <img className='w-[150px] m-auto' src={`${process.env.REACT_APP_URL}/verFoto/${id}`}></img>   
             </div>
-            <div className='py-2'>
+
+            <Dropzone setFoto={setFoto} />
+            {/* <div className='py-2'>
                 <label htmlFor="foto" className='text-devarana-midnight'>Fotografía</label>  
                 <Input type="file" id="foto" accept=".pdf,.jpg,.png" className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="photo" onChange={saveFile} ></Input>
-            </div>
+            </div> */}
             <div className='py-2'>
                 <label htmlFor="" className='text-devarana-midnight'>Nombre</label>    
                 <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="name" onChange={handleChange} value={name}></Input>

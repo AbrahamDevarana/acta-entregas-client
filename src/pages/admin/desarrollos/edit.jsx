@@ -1,15 +1,17 @@
 import Input from '../../../components/input'
-import Select from '../../../components/select'
 import Button from '../../../components/button';
 import Spinner from '../../../components/spinner';
 import ErrorDisplay from '../../../components/errors';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { editDesarrolloAction, updateDesarrolloAction } from '../../../actions/desarrolloActions';
 import { useEffect, useState } from 'react';
 import Dropzone from '../../../components/dropzone';
+
+import {FiDelete} from 'react-icons/fi'
+
 
 
 const AdminDesarrolloEdit = () => {
@@ -27,28 +29,51 @@ const AdminDesarrolloEdit = () => {
         navigate(redirect)
     }
   
-
+    const [formulario, setForm] = useState(false)
+    const [foto, setFoto] = useState(false)
     const [desarrollo, setDesarrollo ] = useState({
         descripcion: '',
-        prototipos: [],
-        nuevoPrototipo: []
+        etapas: [],
+        nuevaEtapa: [],
+        etapaEliminada: []
     })
 
     useEffect( () => {
         if(!editDesarrollo){
             dispatch(editDesarrolloAction(params.id))
         }
-        setDesarrollo(editDesarrollo)
+        setDesarrollo({
+            ...editDesarrollo,
+            nuevaEtapa: [],
+            etapaEliminada: []
+        })
+
         // eslint-disable-next-line 
     }, [editDesarrollo])
 
-    const { descripcion, prototipos, nuevoPrototipo } = desarrollo
-
+    const { descripcion, etapas, nuevaEtapa, etapaEliminada } = desarrollo
     const handleChange = e => {
         setDesarrollo({
             ...desarrollo,
             [e.target.name]:e.target.value
         })
+    }
+
+    const handleNuevaEtapa = e => {
+        e.preventDefault()
+        const etapa = document.querySelector("#etapa")
+        const etapaValue = etapa.value
+
+        if(etapaValue.trim() !== "") {
+            // console.log(nuevaEtapa);
+            setDesarrollo({
+                ...desarrollo,
+                nuevaEtapa: nuevaEtapa.length > 0? [...nuevaEtapa, etapaValue] : [etapaValue]
+            })
+        }
+
+        etapa.value = ""
+        
     }
 
     const handleSubmit = e => {
@@ -61,64 +86,89 @@ const AdminDesarrolloEdit = () => {
             dispatch(showAlertAction(alert))
             return
         }
+
+        const form = new FormData()
+        form.append("foto", foto)
+
         dispatch(hideAlertAction())
-        dispatch(updateDesarrolloAction(desarrollo))
+        dispatch(updateDesarrolloAction(desarrollo, form))
     }
 
-    const agregarPrototipo = e => {
-        const newProto = document.getElementById("prototipo").value
+    const handleDeleteOldEtapa = (e, borrar) => {
         e.preventDefault()
         setDesarrollo({
             ...desarrollo,
-            prototipos: [...prototipos, {nombre: newProto}],
-            nuevoPrototipo: [newProto]
+            etapas: etapas.filter( item => item.id !== borrar),
+            etapaEliminada: [...etapaEliminada, borrar]
         })
-
-        console.log(prototipos);
+        console.log(etapaEliminada);
     }
-
+    const handleDeleteEtapa = (e, borrar) => {
+        e.preventDefault()
+        setDesarrollo({
+            ...desarrollo,
+            nuevaEtapa: nuevaEtapa.filter( item => item !== borrar)
+        })
+    }
  
+    
 
     if(loading) return <Spinner/>
 
     return ( 
-    <>
-    <div className='max-w-[1000px] m-auto w-full px-5 py-10'>
-        <h1 className='font-mulish text-4xl text-center font-bold uppercase py-4 text-devarana-midnight'>Desarrollo</h1>
-        <ErrorDisplay alert={alert} errors={errors} />
+        <>
+        <div className='max-w-[1000px] m-auto w-full px-5 py-10'>
+            <Button className={"bg-devarana-graph text-white mb-4 block uppercase"} onClick={ () => navigate(-1)}> Volver </Button>
 
-        <form action="" onSubmit={handleSubmit}>
-            <div className='py-2'>
-                <Dropzone/>
-            </div>
-            <label htmlFor="" className='text-devarana-midnight'>Elemento del desarrollo</label>    
-            <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
-            <div className='py-6'>
-                <hr />
-            </div>
-            <div>
-                { prototipos && prototipos.length > 0? 
-                <div>
-                        <h2 className='text-devarana-midnight text-2xl uppercase'>Prototipos</h2>
-                    <ul>
-                        {
-                            prototipos.map( (item, i) => (
-                                <li className='text-devarana-graph' key={i}>{item.nombre} </li>
-                             ) )
-                        }
-                    </ul>
+            <h1 className='font-mulish text-4xl text-center font-bold uppercase py-4 text-devarana-midnight'>{descripcion}</h1>
+            <ErrorDisplay alert={alert} errors={errors} />
+
+            <form action="" onSubmit={handleSubmit}>
+                <div id='preview'>
+                    <img src={`${process.env.REACT_APP_URL}/verDesarrollo/${desarrollo.id}`} alt={`${desarrollo.descripcion}`} className="w-full"/>
                 </div>
-                :
-                <p>No hay prototipos designados</p>
+                <div className='py-2'>
+                    <Dropzone setFoto={setFoto}/>
+                </div>
+                <label htmlFor="" className='text-devarana-midnight'>Nombre de Desarrollo</label>    
+                <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
+                <div className='grid grid-cols-3 gap-x-10 gap-y-2'>
+                    <p className='col-span-3 my-2'> Etapas del proyecto: </p>
+                    { etapas && etapas.length > 0? 
+                         etapas.map( (item, i) => (
+                            // <div className='col-span-1 border shadow py-2 px-2 inline-flex hover:bg-devarana-babyblue transition-all ease-in-out duration-700' key={i}> <Link className='w-full' to={`etapa/${item.id}`}> {item.descripcion} </Link> <button className='ml-auto mr-3 px-2 hover:bg-devarana-pink hover:text-devarana-pearl' onClick={(e) => handleDeleteOldEtapa(e, item.id) }> <FiDelete/> </button> </div>
+                            <Link to={`/admin/etapas/${item.id}`} className='col-span-1 border shadow py-2 px-2 hover:bg-devarana-babyblue hover:text-devarana-pearl transition-all ease-in-out duration-300'>
+                                <div className='w-full inline-flex' key={i}> 
+                                    {item.descripcion}
+                                    <button type="button" className='ml-auto mr-1 px-2 rounded-sm hover:text-devarana-pink hover:border hover:border-devarana-pink transition-all ease-in-out duration-200' onClick={(e) => handleDeleteOldEtapa(e, item.id) }> <FiDelete/> </button> 
+                                </div>
+                            </Link>
+                         ))                         
+                        : 
+                        <p className='text-2xl text-center py-2 col-span-3'>Este desarrollo no tiene etapas creadas</p> 
+                    }
+
+                    {
+                        nuevaEtapa && nuevaEtapa.length > 0 ?
+                            nuevaEtapa.map((item, i) => (
+                                <div className='col-span-1 border shadow py-2 px-2 inline-flex border-devarana-pink' key={i}> <p> {item } </p> <button className='ml-auto mr-3 px-2' onClick={(e) => handleDeleteEtapa(e, item) }> <FiDelete/> </button> </div>                            
+                            ))
+                        :
+                        null
+                    }
+                </div>
+
+                {formulario ? 
+                    <>
+                        <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-4" name="etapa" id="etapa" placeholder="Nueva etapa"/>
+                        <Button type="button" onClick={handleNuevaEtapa}> Agregar </Button>
+                    </>
+                    :
+                        <Button type="button" onClick={ setForm(true) }> Agregar </Button>
                 }
-            </div>
-            <div className="flex max-w-md">
-                <Input className="block border rounded-md px-3 py-1 shadow-md my-2" name="prototipo" id="prototipo" placeholder="Nuevo prototipo" />
-                <Button type="button" className={"bg-devarana-midnight text-white block m-auto"} onClick={agregarPrototipo}> Agregar </Button>
-            </div>
-            <Button className={"bg-devarana-midnight text-white mt-6 block ml-auto"}> Guardar </Button>
-        </form>
-    </div>
+                <Button type="submit" className={"bg-devarana-midnight text-white mt-6 block ml-auto"}> Guardar </Button>
+            </form>
+        </div>
     </>
     );
 }

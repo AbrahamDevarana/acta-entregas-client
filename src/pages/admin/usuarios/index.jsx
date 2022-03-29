@@ -30,7 +30,7 @@ const AdminUsuario = () => {
     }
     const header = [
         // {title: 'ID', field: 'id', cellStyle: { 'textAlign':'center', width: '10%' }}, 
-        {title: 'Foto', field: 'foto', cellStyle: { 'textAlign':'center', width: '10%' }, render: rowData => <img className='m-auto rounded-full h-[70px] w-[70px]' src={`${process.env.REACT_APP_URL}/picture/${rowData.foto}`}></img>}, 
+        {title: 'Foto', field: 'foto', cellStyle: { 'textAlign':'center', width: '10%' }, render: rowData => <img className='m-auto rounded-full w-[70px]' src={`${process.env.REACT_APP_URL}/verFoto/${rowData.id}`}></img>}, 
         {title: 'Nombre', field: 'name', cellStyle: { 'textAlign':'center', width: '60%'}},
         {title: 'Apellido', field: 'last_name', cellStyle: { 'textAlign':'center', width: '30%'}},
         {title: 'Email', field: 'email', cellStyle: { 'textAlign':'center', width: '30%'}},

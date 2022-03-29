@@ -7,7 +7,7 @@ import ErrorDisplay from '../../../components/errors';
 
 import {AiOutlinePlusCircle} from 'react-icons/ai'
 
-
+import { getSeccionesAction } from '../../../actions/seccionActions'
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { editViviendaAction} from '../../../actions/viviendaActions';
@@ -26,7 +26,7 @@ const AdminViviendasEdit = () => {
     const editVivienda = useSelector( state => state.vivienda.edit)
     const redirect = useSelector( state => state.vivienda.redirectTo)
     const listadoDisponible = useSelector ( state => state.listado.listado)
-
+    const secciones = useSelector( state => state.seccion.seccion)
     const loadingvivienda = useSelector( state => state.vivienda.loading)
     const loadinglistado = useSelector ( state => state.listado.loading)
 
@@ -57,6 +57,7 @@ const AdminViviendasEdit = () => {
             vivienda_id:editVivienda.id,
             
         })
+        dispatch(getSeccionesAction())
     }, [editVivienda])
 
     const handleCheck = (e) => {        

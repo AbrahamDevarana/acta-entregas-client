@@ -9,6 +9,8 @@ import ErrorDisplay from '../../../components/errors';
 
 import Dropzone from '../../../components/dropzone';
 
+import {FiDelete} from 'react-icons/fi'
+
 
 const AdminDesarrolloCreate = () => {
 
@@ -23,18 +25,37 @@ const AdminDesarrolloCreate = () => {
         navigate(redirect)
     }
 
+    const [formulario, setForm] = useState(false)
+    const [foto, setFoto] = useState(false)
     const [desarrollo, setDesarrollo ] = useState({
         descripcion: '',
-        prototipos: []
+        etapas: []
     })
 
-    const { descripcion, prototipos } = desarrollo
+    const { descripcion, etapas } = desarrollo
 
     const handleChange = e => {
         setDesarrollo({
             ...desarrollo,
             [e.target.name]:e.target.value
         })
+    }
+
+    const handleNuevaEtapa = e => {
+        e.preventDefault()
+        const etapa = document.querySelector("#etapa")
+        const etapaValue = etapa.value
+
+        if(etapaValue.trim() !== "") {
+
+            setDesarrollo({
+                ...desarrollo,
+                etapas: etapas.length > 0? [...etapas, etapaValue] : [etapaValue]
+            })
+        }
+
+        etapa.value = ""
+        
     }
 
     const handleSubmit = e => {
@@ -47,8 +68,21 @@ const AdminDesarrolloCreate = () => {
             dispatch(showAlertAction(alert))
             return
         }
+
+        const form = new FormData()
+        form.append("foto", foto)
+
         dispatch(hideAlertAction())
-        dispatch(createNewDesarrolloAction(desarrollo))
+
+        dispatch(createNewDesarrolloAction(desarrollo, form))
+    }
+
+    const handleDeleteEtapa = (e, borrar) => {
+        e.preventDefault()
+        setDesarrollo({
+            ...desarrollo,
+            etapas: etapas.filter( item => item !== borrar)
+        })
     }
 
     return ( 
@@ -59,27 +93,31 @@ const AdminDesarrolloCreate = () => {
 
                 <form action="" onSubmit={handleSubmit}>
                     <div className='py-2'>
-                        <Dropzone/>
+                        <Dropzone setFoto={setFoto}/>
                     </div>
                     <label htmlFor="" className='text-devarana-midnight'>Nombre de Desarrollo</label>    
                     <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
-                    <div>
-                            { prototipos.length > 0? 
-                            <div>
-                                 <h2>Prototipos</h2>
-                                <ul>
-                                    {
-                                        prototipos.map( (item, i) => {
-                                            <li key={i}>{item.descripcion}</li>
-                                        } )
-                                    }
-                                </ul>
-                            </div>
-                            :
-                            <p>No hay prototipos designados</p>
-                            }
+                    <div className='grid grid-cols-3 gap-x-10'>
+                        <p className='col-span-3 my-2'> Etapas del proyecto: </p>
+                        { etapas && etapas.length > 0? 
+                             etapas.map( (item, i) => (
+                                <div className='col-span-1 border shadow py-2 px-2 inline-flex border-devarana-pink' key={i}> <p> {item}</p> <button className='ml-auto mr-3 px-2' onClick={(e) => handleDeleteEtapa(e, item) }> <FiDelete/> </button> </div>
+                             ))
+                            : 
+                            <p className='text-2xl text-center py-2 col-span-3'>Este desarrollo no tiene etapas creadas</p> 
+                        }
                     </div>
-                    <Button className={"bg-devarana-midnight text-white mt-6 block ml-auto"}> Guardar </Button>
+
+
+                    {formulario ? 
+                        <>
+                            <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-4" name="etapa" id="etapa"/>
+                            <Button type="button" onClick={handleNuevaEtapa}> Agregar </Button>
+                        </>
+                        :
+                            <Button type="button" onClick={ setForm(true) }> Agregar </Button>
+                    }
+                    <Button type="submit" className={"bg-devarana-midnight text-white mt-6 block ml-auto"}> Guardar </Button>
                 </form>
             </div>
         </>

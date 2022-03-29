@@ -28,8 +28,9 @@ export function createNewUsuarioAction(usuario, form){
         dispatch(addUsuario())
         await clientAxios.post('/usuarios', usuario)
         .then( async response => {
-            await axios({ url: `${process.env.REACT_APP_URL}/fotoPerfil/${response.data.usuario.id}`, method:"POST", data:form, headers: {"Content-Type": "multipart/form-data"}}).
-            then( response => {
+            // await axios({ url: `${process.env.REACT_APP_URL}/fotoPerfil/${response.data.usuario.id}`, method:"POST", data:form, headers: {"Content-Type": "multipart/form-data"}}).
+            await clientAxios.post(`fotoPerfil/${response.data.usuario.id}`, form)
+            .then( response => {
                 console.log(response);
                 dispatch(addUsuarioSuccess(response.data.usuario))
                 if(!usuario.clientForm){
@@ -131,7 +132,8 @@ export function updateUsuarioAction(usuario, form){
         dispatch(updateUsuario())
         await clientAxios.put(`/usuarios/${usuario.id}`, usuario)
         .then( async response => {
-            await axios({ url: `${process.env.REACT_APP_URL}/fotoPerfil/${response.data.usuario.id}`, method:"POST", data:form, headers: {"Content-Type": "multipart/form-data"}})
+            // await axios({ url: `${process.env.REACT_APP_URL}/fotoPerfil/${response.data.usuario.id}`, method:"POST", data:form, headers: {"Content-Type": "multipart/form-data"}})
+            await clientAxios.post(`fotoPerfil/${response.data.usuario.id}`, form)
             .then( result => {
                 dispatch(updateUsuarioSuccess(result.data.usuario))
                 dispatch(redirectTo())    
