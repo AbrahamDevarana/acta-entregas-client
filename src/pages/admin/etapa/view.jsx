@@ -6,6 +6,8 @@ import Button from "../../../components/button";
 import Input from "../../../components/input";
 import Dropzone from "../../../components/dropzone";
 
+import {BsFillTrashFill, BsEyeFill} from "react-icons/bs"
+
 const AdminEtapasView = () => {
 
     const params = useParams()
@@ -22,12 +24,13 @@ const AdminEtapasView = () => {
 
     const [ prototipoState, setPrototipo] = useState({
         descripcion_prototipo:  '',
-        planos: ''
+        planosPrototipo: ''
     })
 
-    const {descripcion, prototipos, id} = etapa
-    const {planos, descripcion:descripcion_prototipo} = prototipos
 
+
+    
+    const {descripcion, prototipos, id} = etapa
 
     const handleChange = e => {
         e.preventDefault()
@@ -52,12 +55,31 @@ const AdminEtapasView = () => {
             { prototipos && prototipos.length > 0 ?
 
                 <>
-                <h2>Prototipos</h2>
-                    { planos ? 
-                        <p>Aquí Irian los planos, si hubiera</p>
-                        :
-                        <p>Aún no se han cargado los planos</p>
-                    }
+                <h2 className="text-2xl text-center text-devarana-midnight pb-2">Prototipos</h2>
+                <div className="relative border overflow-x-auto shadow-md sm:rounded-lg">
+                    <table className="w-full table-auto">
+                        <thead className="bg-devarana-graph bg-opacity-20">
+                            <tr>
+                                <th className="py-2">Nombre </th>
+                                <th>Planos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        { prototipos.map( (item, i) => (
+                            <tr key={i} className="text-center">
+                                <td className="py-2"> {item.nombre} </td>
+                                <td> {item.planos} </td>
+                                <td className="text-lg text-devarana-midnight inline-flex">
+                                    <span className="px-2"><Button className="border-0"><BsEyeFill/></Button></span>
+                                    <span className="px-2"><Button className="border-0"><BsFillTrashFill/></Button></span>
+                                </td>
+                            </tr>
+                        ) ) 
+                        }
+                        </tbody>
+                    </table>
+                </div>
                 </>
                 :
                 <p>No hay prototipos existentes</p>
