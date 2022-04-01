@@ -1,9 +1,9 @@
 import Input from '../../../components/input'
-import Select from '../../../components/select'
+import Dropzone from "../../../components/dropzone";
 import Button from '../../../components/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { createNewListadoAction } from '../../../actions/listadoActions';
+import { createNewPrototipoAction } from '../../../actions/prototipoActions';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../../../components/errors';
@@ -16,30 +16,33 @@ const AdminPrototipoCreate = () => {
     const navigate = useNavigate()
 
     const alert = useSelector( state => state.alert.alert )
-    const errors = useSelector( state => state.listado.errors)
-    const redirect = useSelector( state => state.listado.redirectTo)
+    const errors = useSelector( state => state.prototipo.errors)
+    const redirect = useSelector( state => state.prototipo.redirectTo)
+    const [foto, setFoto] = useState(false)
 
     if(redirect){
         navigate(redirect)
     }
 
-    const [listado, setListado ] = useState({
+    const [prototipo, setPrototipo ] = useState({
         descripcion: '',
-        tipoListado: ''
+        planos: '',
+        nombre: ''
     })
 
-    const { descripcion, tipoListado } = listado
+    
+    const { descripcion, planos, nombre, id } = prototipo
 
     const handleChange = e => {
-        setListado({
-            ...listado,
+        setPrototipo({
+            ...prototipo,
             [e.target.name]:e.target.value
         })
     }
 
     const handleSubmit = e => {
         e.preventDefault()
-        if( descripcion.trim() === '' || tipoListado === ''){
+        if( nombre === ''){
             const alert = {
                 msg: "Todos los campos requeridos.",
                 classes: "text-center font-bold uppercase text-red-500"
@@ -47,26 +50,26 @@ const AdminPrototipoCreate = () => {
             dispatch(showAlertAction(alert))
             return
         }
+        const form = new FormData()
+        form.append("foto", foto)
         dispatch(hideAlertAction())
-        dispatch(createNewListadoAction(listado))
+        dispatch(createNewPrototipoAction(prototipo, form))
     }
 
     return ( 
         <>
             <div className='max-w-[600px] m-auto w-full px-5 py-10'>
-                <h1 className='font-mulish text-4xl text-center font-bold uppercase py-4 text-devarana-midnight'>Listado</h1>
+                <h1 className='font-mulish text-4xl text-center font-bold uppercase py-4 text-devarana-midnight'>Prototipo</h1>
                 <ErrorDisplay alert={alert} errors={errors} />
 
                 <form action="" onSubmit={handleSubmit}>
-                    <label htmlFor="" className='text-devarana-midnight'>Elemento del listado</label>    
-                    <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
+                    <label htmlFor="" className='text-devarana-midnight'>Elemento del prototipo</label>    
+                    <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="nombre" onChange={handleChange} value={nombre}></Input>
                     
-                    <Select className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="tipoListado" onChange={handleChange} value={tipoListado}>
-                        <option value="">-- Seleccione un tipo -- </option>
-                        <option value="1">Cliente</option>
-                        <option value="2">Especial</option>
-                        <option value="3">Calidad</option>
-                    </Select>
+                    <div className="py-2">
+                        <label htmlFor="" className='text-devarana-midnight'>Planos</label>    
+                        <Dropzone setFoto={setFoto} thumbS="w-full border border-devarana-pink" />
+                    </div>
                     <Button className={"bg-devarana-midnight text-white mt-6 block ml-auto"}> Guardar </Button>
                 </form>
             </div>

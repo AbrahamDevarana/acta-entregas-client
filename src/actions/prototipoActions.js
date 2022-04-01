@@ -23,13 +23,19 @@ import Swal from 'sweetalert2'
 
 // Create 
 
-export function createNewPrototipoAction(prototipo){
-    return dispatch => {
+export function createNewPrototipoAction(prototipo, form){
+    return async dispatch => {
         dispatch(addPrototipo())
-        clientAxios.post('prototipo', prototipo)
-        .then( response => {
-            dispatch(addPrototipoSuccess(response.data.prototipo))
-            dispatch(redirectTo())
+        await clientAxios.post('prototipo', prototipo)
+        .then( async response => {
+            await clientAxios.post(`prototipo/plano/${response.data.prototipo.id}`, form)
+            .then( response => {
+                dispatch(addPrototipoSuccess(response.data.prototipo))
+                dispatch(redirectTo())
+            })
+            .catch( error => {
+                dispatch(addPrototipoError(error.response.data))
+            }) 
         })
         .catch( error => {
             dispatch(addPrototipoError(error.response.data))
@@ -90,7 +96,7 @@ export function editPrototipoAction(id) {
     return async (dispatch) => {
         dispatch(editPrototipo())
         await clientAxios.get(`/prototipo/${id}/edit`)
-        .then(response =>{
+        .then(response => {
             dispatch(editPrototipoSuccess(response.data.prototipo))
         })
         .catch( error => {
@@ -118,15 +124,22 @@ const editPrototipoError = payload => ({
 
 // Update Prototipo
 
-export function updatePrototipoAction(prototipo){
+export function updatePrototipoAction(prototipo, form){
     return async dispatch => {
         dispatch(updatePrototipo())
-        await clientAxios.put(`/prototipo/${prototipo.id}`, prototipo)
-        .then( response => {
-            dispatch(updatePrototipoSuccess(response.data.prototipo))
-            dispatch(redirectTo())
+        await clientAxios.put(`prototipo/${prototipo.id}`, prototipo)
+        .then( async response => {
+            await clientAxios.post(`prototipo/plano/${response.data.prototipo.id}`, form)
+            .then( response => {
+                dispatch(updatePrototipoSuccess(response.data.prototipo))
+                // dispatch(redirectTo())
+            })
+            .catch( error => {
+                dispatch(updatePrototipoError(error.response.data))
+            })    
         })
         .catch( error => {
+            console.log(error.response);
             dispatch(updatePrototipoError(error.response.data))
         })
     }

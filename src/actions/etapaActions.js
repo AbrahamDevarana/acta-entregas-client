@@ -12,6 +12,9 @@ import {
     UPDATE_ETAPA,
     UPDATE_ETAPA_SUCCESS,
     UPDATE_ETAPA_ERROR,
+    UPGRADE_ETAPA,
+    UPGRADE_ETAPA_SUCCESS,
+    UPGRADE_ETAPA_ERROR,
     DELETE_ETAPA,
     DELETE_ETAPA_SUCCESS,
     DELETE_ETAPA_ERROR,
@@ -215,3 +218,41 @@ export function redirectTo(){
         })
     }
 }
+
+
+
+
+
+// Update Etapa
+
+export function upgradeEtapaAction(etapa){
+    console.log(etapa);
+    return async dispatch => {
+        dispatch(upgradeEtapa())
+        await clientAxios.post(`/etapa/${etapa.id}/upgrade`, etapa.prototipoNuevo)
+        .then( response => {
+            console.log(response);
+            dispatch(upgradeEtapaSuccess(response.data.etapa))
+            dispatch(redirectTo())
+        })
+        .catch( error => {
+            console.log(error);
+            dispatch(upgradeEtapaError(error.response.data))
+        })
+    }
+}
+
+const upgradeEtapa = () => ({
+    type: UPGRADE_ETAPA,
+    payload: true
+})
+
+const upgradeEtapaSuccess = payload => ({
+    type: UPGRADE_ETAPA_SUCCESS,
+    payload
+})
+
+const upgradeEtapaError = payload => ({
+    type: UPGRADE_ETAPA_ERROR,
+    payload
+})

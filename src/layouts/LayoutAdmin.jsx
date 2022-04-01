@@ -55,7 +55,6 @@ const LayoutAdmin = (props) => {
                 <Link to={'/admin/listado'}><li className='text-devarana-pearl py-4 sm:py-2 inline-flex w-full items-center'> <span className="text-2xl px-2"> <BsCardChecklist/></span> <p>Elementos</p> </li></Link>
                 <Link to={'/admin/usuarios'}><li className='text-devarana-pearl py-4 sm:py-2 inline-flex w-full items-center'> <span className="text-2xl px-2"> <AiOutlineUsergroupAdd/></span> <p>Usuarios</p> </li></Link> 
                 <Link to={'/admin/seccion'}><li className='text-devarana-pearl py-4 sm:py-2 inline-flex w-full items-center'><p>Zonas</p> </li></Link>
-                <Link to={'/admin/prototipo'}><li className='text-devarana-pearl py-4 sm:py-2 inline-flex w-full items-center'><p>Prototipos</p> </li></Link>
                 {/* <Link to={'/admin/roles'}><li className='text-devarana-pearl py-4 sm:py-2 inline-flex w-full items-center'><p>Roles</p> </li></Link> */} 
                 <hr className="py-2"/>
             </ul>

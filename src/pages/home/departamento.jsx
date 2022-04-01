@@ -1,7 +1,7 @@
 import StylePlusPlano from "../../assets/img/departamentos/style_plus"; 
 
 const PlanoDepartamento = () => {
-      const zonaSeleccion = (e) => {
+    const zonaSeleccion = (e) => {
         console.log(e.target.id);
     }
 

@@ -86,6 +86,7 @@ export default function foo (state = initialState, action ){
             return {
                 ...state,
                 edit: false,
+                loading: false,
                 prototipo: state.prototipo.map ( item => item.id === action.payload.id ? item = action.payload : item )
             }
         case DELETE_PROTOTIPO_SUCCESS:

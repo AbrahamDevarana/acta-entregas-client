@@ -37,8 +37,10 @@ const AdminPrototipo = () => {
 
     return ( 
         <>
-
-        <Button className={"bg-devarana-midnight text-white mb-4 block ml-auto uppercase"} onClick={ () => navigate("create")}><i className="fa-solid fa-plus"></i> nuevo</Button>
+        <div className="flex">
+            <Button className={"bg-devarana-graph text-white mb-4 block uppercase"} onClick={ () => navigate(-1)}> Volver </Button>
+            <Button className={"bg-devarana-midnight text-white mb-4 block ml-auto uppercase"} onClick={ () => navigate("create")}><i className="fa-solid fa-plus"></i> nuevo</Button>
+        </div>
 
         { prototipo && prototipo.length > 0 ? 
             <Table 

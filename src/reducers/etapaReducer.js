@@ -14,6 +14,9 @@ import {
     UPDATE_ETAPA,
     UPDATE_ETAPA_SUCCESS,
     UPDATE_ETAPA_ERROR,
+    UPGRADE_ETAPA,
+    UPGRADE_ETAPA_SUCCESS,
+    UPGRADE_ETAPA_ERROR,
     CLEAN_ETAPA,
     REDIRECT
 } from '../types'
@@ -34,6 +37,7 @@ export default function foo (state = initialState, action ){
         case CREATE_ETAPA:
         case EDIT_ETAPA:
         case UPDATE_ETAPA:
+        case UPGRADE_ETAPA:
             return {
                 ...state,
                 loading: action.payload, 
@@ -64,6 +68,7 @@ export default function foo (state = initialState, action ){
         case EDIT_ETAPA_ERROR:
         case DELETE_ETAPA_ERROR:
         case UPDATE_ETAPA_ERROR:
+        case UPGRADE_ETAPA_ERROR:
             return {
                 ...state,
                 loading: false,
@@ -87,6 +92,13 @@ export default function foo (state = initialState, action ){
                 ...state,
                 edit: false,
                 etapa: state.etapa.map ( item => item.id === action.payload.id ? item = action.payload : item )
+            }
+
+        case UPGRADE_ETAPA_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                etapa: action.payload
             }
         case DELETE_ETAPA_SUCCESS:
             return {
