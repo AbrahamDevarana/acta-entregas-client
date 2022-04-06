@@ -16,7 +16,10 @@ import {
     DELETE_PROTOTIPO_SUCCESS,
     DELETE_PROTOTIPO_ERROR,
     CLEAN_PROTOTIPO,
-    REDIRECT
+    REDIRECT,
+    SET_RELACION_PROTOTIPO_SUCCESS,
+    SET_RELACION_PROTOTIPO_ERROR,
+    SET_RELACION_PROTOTIPO
 } from '../types'
 import Swal from 'sweetalert2'
 
@@ -85,6 +88,37 @@ const getPrototiposSuccess = payload => ({
 })
 
 const getPrototiposError = payload => ({
+    type: VIEW_PROTOTIPO_ERROR,
+    payload
+})
+
+
+// one prototipo
+
+export function getPrototipoAction(id){
+    return async (dispatch) => {
+        dispatch (getPrototipo())
+        await clientAxios.get(`prototipo/${id}`)
+        .then( response => {
+            dispatch(getPrototipoSuccess(response.data.prototipo))
+        })
+        .catch(error => {
+            dispatch(getPrototipoError(error.response.data))
+        })
+    }
+}
+
+const getPrototipo = () => ({
+    type: VIEW_PROTOTIPO,
+    payload: true
+})
+
+const getPrototipoSuccess = payload => ({
+    type: VIEW_PROTOTIPO_SUCCESS,
+    payload
+})
+
+const getPrototipoError = payload => ({
     type: VIEW_PROTOTIPO_ERROR,
     payload
 })
@@ -228,3 +262,32 @@ export function redirectTo(){
         })
     }
 }
+
+export function setRelacionAction(seleccionarZona){
+    return async dispatch => {
+        dispatch(setRelacion(seleccionarZona))
+        await clientAxios(`/prototipo/relacion/${seleccionarZona.id}`, seleccionarZona)
+        .then(response => {
+            dispatch(setRelacionSuccess(response.data.prototipo))
+        })
+        .catch( error => {
+            dispatch(setRelacionError(error.response.data))
+        })
+    }
+}
+
+
+const setRelacionSuccess = payload => ({
+    type: SET_RELACION_PROTOTIPO_SUCCESS,
+    payload
+})
+
+const setRelacionError = payload => ({
+    type: SET_RELACION_PROTOTIPO_ERROR,
+    payload
+})
+
+const setRelacion = payload => ({   
+    type: SET_RELACION_PROTOTIPO,
+    payload
+})

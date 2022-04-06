@@ -1,5 +1,6 @@
 import Input from '../../../components/input'
 import Button from '../../../components/button';
+import Select from '../../../components/select';
 import Spinner from '../../../components/spinner'
 import ErrorDisplay from '../../../components/errors';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
@@ -9,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { editSeccionAction, updateSeccionAction } from '../../../actions/seccionActions';
 import { useEffect, useState } from 'react';
 import { getListadosAction } from '../../../actions/listadoActions';
+import { getDesarrollosAction } from '../../../actions/desarrolloActions';
 
 const AdminSeccionEdit = () => {
 
@@ -20,7 +22,7 @@ const AdminSeccionEdit = () => {
     const redirect = useSelector( state => state.seccion.redirectTo)
     const listado = useSelector (state => state.listado.listado)
     const loading = useSelector (state => state.listado.loading)
-
+    const desarrollos = useSelector( state => state.desarrollo.desarrollo)
     const navigate = useNavigate()
     const dispatch = useDispatch();
     
@@ -32,6 +34,7 @@ const AdminSeccionEdit = () => {
     const [seccion, setSeccion ] = useState({
         id: '',
         descripcion: '',
+        desarrollo_id: '',
         lista: []
     })
 
@@ -39,12 +42,13 @@ const AdminSeccionEdit = () => {
         if(!editSeccion){
             dispatch(editSeccionAction(params.id))
         }
-        setSeccion({id:editSeccion.id, descripcion : editSeccion.descripcion, lista: editSeccion.listado? editSeccion.listado.map( item => `${item.id}` ) : null })
+        setSeccion({id: editSeccion.id, desarrollo_id: editSeccion.desarrollo_id, descripcion : editSeccion.descripcion, lista: editSeccion.listado? editSeccion.listado.map( item => `${item.id}` ) : null })
         dispatch(getListadosAction())
+        dispatch(getDesarrollosAction())
         // eslint-disable-next-line 
     }, [editSeccion])
 
-    const { descripcion } = seccion
+    const { descripcion, desarrollo_id } = seccion
 
     const handleChange = e => {
         setSeccion({
@@ -77,7 +81,7 @@ const AdminSeccionEdit = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if( descripcion.trim() === ''){
+        if( descripcion.trim() === '' || desarrollo_id === ''){
             const alert = {
                 msg: "Todos los campos requeridos.",
                 classes: "text-center font-bold uppercase text-red-500"
@@ -98,8 +102,23 @@ const AdminSeccionEdit = () => {
         <ErrorDisplay alert={alert} errors={errors} />
 
         <form action="" onSubmit={handleSubmit}>
-            <label htmlFor="" className='text-devarana-midnight'>Elemento del sección</label>    
-            <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
+            <div className="py-2">
+                <label htmlFor="" className='text-devarana-midnight'>Elemento del sección</label>    
+                <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
+            </div>
+            <div className='py-2'>
+                <label htmlFor="" className='text-devarana-midnight'>Desarrollo</label>    
+                <Select className="w-full" onChange={handleChange} name="desarrollo_id" value={desarrollo_id}>
+                    <option value="">-- Selecciona un desarrollo --</option>
+                    {desarrollos && desarrollos.length > 0 ?
+                        desarrollos.map((item, index) => (
+                            <option key={index} value={item.id}>{item.descripcion}</option>
+                        ))
+                    :   
+                    null
+                    }
+                </Select>
+            </div>
             <div className='py-4'>
                 <h2 className='font-mulish font-bold text-2xl py-2'>Lista de elementos </h2> 
                 <div className="grid grid-cols-3">

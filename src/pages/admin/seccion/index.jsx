@@ -30,7 +30,8 @@ const AdminSeccion = () => {
     }
     const header = [
         {title: 'ID', field: 'id', cellStyle: { 'textAlign':'center', width: '10%' }}, 
-        {title: 'Descripción', field: 'descripcion', cellStyle: { 'textAlign':'center', width: '80%'}},
+        {title: 'Descripción', field: 'descripcion', cellStyle: { 'textAlign':'center', width: '50%'}},
+        {title: 'Desarrollo', field: 'desarrollo.descripcion', cellStyle: { 'textAlign':'center', width: '40%'}},
     ]
 
     if(loading) return <Spinner/>

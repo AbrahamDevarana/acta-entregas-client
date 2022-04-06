@@ -9,8 +9,8 @@ import Login from '../pages/auth/Login'
 
 import LayoutAdmin from '../layouts/LayoutAdmin'
 import AdminHome from '../pages/admin'
-import AdminViviendas from '../pages/admin/viviendas'
-import AdminViviendasEdit from '../pages/admin/viviendas/edit'
+import AdminResidencias from '../pages/admin/residencia'
+import AdminResidenciasEdit from '../pages/admin/residencia/edit'
 import AdminSeccion from '../pages/admin/seccion'
 import AdminListado from '../pages/admin/listado'
 import AdminListadoCreate from '../pages/admin/listado/create'
@@ -55,12 +55,12 @@ const routesAdmin = [
     {
         path: "/admin/residencias",
         layout: LayoutAdmin,
-        component: AdminViviendas,
+        component: AdminResidencias,
     },
     {
         path: "/admin/residencias/edit/:id",
         layout: LayoutAdmin,
-        component: AdminViviendasEdit,
+        component: AdminResidenciasEdit,
     },
     {
         path: "/admin/seccion",

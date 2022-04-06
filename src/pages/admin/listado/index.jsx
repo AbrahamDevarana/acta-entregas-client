@@ -30,8 +30,9 @@ const AdminListado = () => {
     }
     const header = [
         {title: 'ID', field: 'id', cellStyle: { 'textAlign':'center', width: '10%' }}, 
-        {title: 'Descripción', field: 'descripcion', cellStyle: { 'textAlign':'center', width: '60%'}},
+        {title: 'Descripción', field: 'descripcion', cellStyle: { 'textAlign':'center', width: '30%'}},
         {title: 'Tipo', field: 'tipoListado', cellStyle: { 'textAlign':'center', width: '30%'}, render: rowData => rowData.tipoListado  === "1" ? "Cliente" : rowData.tipoListado === "2" ? "Especial" : "Calidad" },
+        {title: 'Desarrollo', field: 'desarrollo.descripcion', cellStyle: { 'textAlign':'center', width: '30%'}},
     ]
 
     if(loading) return <Spinner/>

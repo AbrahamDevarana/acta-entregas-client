@@ -1,12 +1,14 @@
 import Input from '../../../components/input'
 import Dropzone from "../../../components/dropzone";
 import Button from '../../../components/button';
+import Select from '../../../components/select'
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createNewPrototipoAction } from '../../../actions/prototipoActions';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../../../components/errors';
+import { getDesarrollosAction } from '../../../actions/desarrolloActions';
 
 
 
@@ -18,6 +20,7 @@ const AdminPrototipoCreate = () => {
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector( state => state.prototipo.errors)
     const redirect = useSelector( state => state.prototipo.redirectTo)
+    const desarrollos = useSelector( state => state.desarrollo.desarrollo)
     const [foto, setFoto] = useState(false)
 
     if(redirect){
@@ -27,11 +30,16 @@ const AdminPrototipoCreate = () => {
     const [prototipo, setPrototipo ] = useState({
         descripcion: '',
         planos: '',
-        nombre: ''
+        nombre: '',
+        desarrollo_id: ''
     })
 
+    useEffect(() => {
+        dispatch(getDesarrollosAction())
+    }, []);
+
     
-    const { descripcion, planos, nombre, id } = prototipo
+    const { descripcion, planos, nombre, id, desarrollo_id } = prototipo
 
     const handleChange = e => {
         setPrototipo({
@@ -65,7 +73,16 @@ const AdminPrototipoCreate = () => {
                 <form action="" onSubmit={handleSubmit}>
                     <label htmlFor="" className='text-devarana-midnight'>Elemento del prototipo</label>    
                     <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="nombre" onChange={handleChange} value={nombre}></Input>
-                    
+                    <Select className="w-full" onChange={handleChange} name="desarrollo_id" value={desarrollo_id}>
+                        <option value="">-- Selecciona un desarrollo --</option>
+                        {desarrollos && desarrollos.length > 0 ?
+                            desarrollos.map((item, index) => (
+                                <option key={index} value={item.id}>{item.descripcion}</option>
+                            ))
+                        :   
+                        null
+                        }
+                    </Select>
                     <div className="py-2">
                         <label htmlFor="" className='text-devarana-midnight'>Planos</label>    
                         <Dropzone setFoto={setFoto} thumbS="w-full border border-devarana-pink" />

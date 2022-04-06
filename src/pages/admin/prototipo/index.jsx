@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deletePrototipoAction, editPrototipoAction, getPrototiposAction, cleanPrototipoAction } from '../../../actions/prototipoActions';
+import { deletePrototipoAction, editPrototipoAction, getPrototiposAction  } from '../../../actions/prototipoActions';
 import Button from '../../../components/button';
 import Spinner from '../../../components/spinner';
 import Table from '../../../components/Table'
@@ -16,7 +16,7 @@ const AdminPrototipo = () => {
     const navigate = useNavigate()
     useEffect ( ()=> { 
         dispatch(getPrototiposAction())
-        dispatch(cleanPrototipoAction())
+        // dispatch(cleanPrototipoAction())
         // eslint-disable-next-line 
     }, [])
 
@@ -30,7 +30,8 @@ const AdminPrototipo = () => {
     }
     const header = [
         {title: 'ID', field: 'id', cellStyle: { 'textAlign':'center', width: '10%' }}, 
-        {title: 'Nombre', field: 'nombre', cellStyle: { 'textAlign':'center', width: '90%'}},
+        {title: 'Nombre', field: 'nombre', cellStyle: { 'textAlign':'center', width: '45%'}},
+        {title: 'Desarrollo', field: 'desarrollo.descripcion', cellStyle: { 'textAlign':'center', width: '45%'}},
     ]
 
     if(loading) return <Spinner/>

@@ -18,7 +18,10 @@ import {
     UPGRADE_ETAPA_SUCCESS,
     UPGRADE_ETAPA_ERROR,
     CLEAN_ETAPA,
-    REDIRECT
+    REDIRECT,
+    SET_RELACION_ETAPA_SUCCESS,
+    SET_RELACION_ETAPA_ERROR,
+    SET_RELACION_ETAPA
 } from '../types'
 
 const initialState = {
@@ -38,6 +41,7 @@ export default function foo (state = initialState, action ){
         case EDIT_ETAPA:
         case UPDATE_ETAPA:
         case UPGRADE_ETAPA:
+        case SET_RELACION_ETAPA:
             return {
                 ...state,
                 loading: action.payload, 
@@ -69,6 +73,7 @@ export default function foo (state = initialState, action ){
         case DELETE_ETAPA_ERROR:
         case UPDATE_ETAPA_ERROR:
         case UPGRADE_ETAPA_ERROR:
+        case SET_RELACION_ETAPA_ERROR:
             return {
                 ...state,
                 loading: false,
@@ -81,6 +86,7 @@ export default function foo (state = initialState, action ){
                 loading: action.payload,
             }
         case VIEW_ETAPA_SUCCESS:
+        case SET_RELACION_ETAPA_SUCCESS:
             return {
                 ...state,
                 loading: false,

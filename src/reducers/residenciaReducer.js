@@ -1,23 +1,23 @@
 import {
-    VIEW_VIVIENDA,
-    VIEW_VIVIENDA_SUCCESS,
-    VIEW_VIVIENDA_ERROR,
-    DELETE_VIVIENDA,
-    DELETE_VIVIENDA_SUCCESS,
-    DELETE_VIVIENDA_ERROR,
-    EDIT_VIVIENDA,
-    EDIT_VIVIENDA_SUCCESS,
-    EDIT_VIVIENDA_ERROR,
-    UPDATE_VIVIENDA,
-    UPDATE_VIVIENDA_SUCCESS,
-    UPDATE_VIVIENDA_ERROR,
-    CLEAN_VIVIENDA,
+    VIEW_RESIDENCIA,
+    VIEW_RESIDENCIA_SUCCESS,
+    VIEW_RESIDENCIA_ERROR,
+    DELETE_RESIDENCIA,
+    DELETE_RESIDENCIA_SUCCESS,
+    DELETE_RESIDENCIA_ERROR,
+    EDIT_RESIDENCIA,
+    EDIT_RESIDENCIA_SUCCESS,
+    EDIT_RESIDENCIA_ERROR,
+    UPDATE_RESIDENCIA,
+    UPDATE_RESIDENCIA_SUCCESS,
+    UPDATE_RESIDENCIA_ERROR,
+    CLEAN_RESIDENCIA,
     REDIRECT,
 
 } from '../types'
 
 const initialState = {
-    vivienda: [],
+    residencia: [],
     errors: false,
     loading: false,
     edit: false,
@@ -29,19 +29,19 @@ const initialState = {
 
 export default function foo (state = initialState, action ){
     switch (action.type) {
-        case EDIT_VIVIENDA:
-        case UPDATE_VIVIENDA:
+        case EDIT_RESIDENCIA:
+        case UPDATE_RESIDENCIA:
             return {
                 ...state,
                 loading: action.payload, 
             }
-        case DELETE_VIVIENDA:
+        case DELETE_RESIDENCIA:
             return {
                 ...state,
                 loading: true,
                 delete: action.payload,
             }
-        case EDIT_VIVIENDA_SUCCESS:
+        case EDIT_RESIDENCIA_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -49,41 +49,41 @@ export default function foo (state = initialState, action ){
                 edit: action.payload,
                 edition: false
             }
-        case VIEW_VIVIENDA_ERROR:
-        case EDIT_VIVIENDA_ERROR:
-        case DELETE_VIVIENDA_ERROR:
-        case UPDATE_VIVIENDA_ERROR:
+        case VIEW_RESIDENCIA_ERROR:
+        case EDIT_RESIDENCIA_ERROR:
+        case DELETE_RESIDENCIA_ERROR:
+        case UPDATE_RESIDENCIA_ERROR:
             return {
                 ...state,
                 loading: false,
                 errors: action.payload
             }
 
-        case VIEW_VIVIENDA:
+        case VIEW_RESIDENCIA:
             return {
                 ...state,
                 loading: action.payload,
             }
-        case VIEW_VIVIENDA_SUCCESS:
+        case VIEW_RESIDENCIA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                vivienda: action.payload,
+                residencia: action.payload,
                 error: false
             }
-        case UPDATE_VIVIENDA_SUCCESS:
+        case UPDATE_RESIDENCIA_SUCCESS:
             return {
                 ...state,
                 edit: false,
-                vivienda: state.vivienda.map ( item => item.id === action.payload.id ? item = action.payload : item )
+                residencia: state.residencia.map ( item => item.id === action.payload.id ? item = action.payload : item )
             }
-        case DELETE_VIVIENDA_SUCCESS:
+        case DELETE_RESIDENCIA_SUCCESS:
             return {
                 ...state,
-                vivienda: state.vivienda.filter( item => item.id !== state.delete ),
+                residencia: state.residencia.filter( item => item.id !== state.delete ),
                 delete: null
             }
-        case CLEAN_VIVIENDA:
+        case CLEAN_RESIDENCIA:
             return {
                 ...state,
                 errors: false,

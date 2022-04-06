@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { editViviendaAction, getViviendasAction, cleanViviendaAction } from '../../../actions/viviendaActions';
+import { editResidenciaAction, getResidenciasAction, cleanResidenciaAction } from '../../../actions/residenciaActions';
 import Select from '../../../components/select';
 import Table from '../../../components/Table'
 import Spinner from '../../../components/spinner';
@@ -12,22 +12,22 @@ import SingleCalendar from '../../../components/singleCalendar'
 import {BsBoxArrowInRight} from "react-icons/bs"
 
 
-const AdminViviendas = () => {
+const AdminResidencias = () => {
 
-    const vivienda = useSelector(state => state.vivienda.vivienda)
-    const loadingvivienda = useSelector(state => state.vivienda.loading)
+    const residencia = useSelector(state => state.residencia.residencia)
+    const loadingresidencia = useSelector(state => state.residencia.loading)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect ( ()=> { 
-        dispatch(getViviendasAction())
-        dispatch(cleanViviendaAction())
+        dispatch(getResidenciasAction())
+        dispatch(cleanResidenciaAction())
         // eslint-disable-next-line 
     }, [])
 
     const setEdit = (id) => {
-        dispatch( editViviendaAction(id) )
+        dispatch( editResidenciaAction(id) )
         navigate(`edit/${id}`)
     }
 
@@ -48,13 +48,13 @@ const AdminViviendas = () => {
         {title: 'Piso', field: 'piso', cellStyle: { 'textAlign':'center', width: '10%'}},
         {title: 'Fecha Pre Entrega', field: 'fechaPreEntrega', cellStyle: { 'textAlign':'center', width: '15%'}, render: rowData =>rowData.fechaPreEntrega === null ? <Button className="inline-flex" onClick={(e) => {showModal(true)}}> Agendar <BsBoxArrowInRight className='my-auto mx-2'/> </Button> : "" },        
         {title: 'Fecha Entrega', field: 'fechaEntrega', cellStyle: { 'textAlign':'center', width: '15%'}, render: rowData =>  rowData.fechaEntrega === null ? <Button className="inline-flex" onClick={(e) => {showModal(true)}}> Agendar <BsBoxArrowInRight className='my-auto mx-2'/> </Button> : "" },
-        {title: 'Prototipo', field: 'tipoVivienda', cellStyle: { 'textAlign':'center', width: '10%'}, render: rowData =>rowData.tipoVivienda === null ? "No Asignado" : rowData.tipoVivienda},
-        {title: 'Tipo', field: 'tipoVivienda', cellStyle: { 'textAlign':'center', width: '10%'}, render: rowData => rowData.tipo === 1? "Departamento" : ""},
+        {title: 'Prototipo', field: 'tipoResidencia', cellStyle: { 'textAlign':'center', width: '10%'}, render: rowData =>rowData.tipoResidencia === null ? "No Asignado" : rowData.tipoResidencia},
+        {title: 'Tipo', field: 'tipoResidencia', cellStyle: { 'textAlign':'center', width: '10%'}, render: rowData => rowData.tipo === 1? "Departamento" : ""},
         {title: 'Cliente', field: 'cliente', cellStyle: { 'textAlign':'center', width: '15%'}, render: rowData =>rowData.cliente === null ? "No Asignado" : "" },
         {title: 'Status', field: 'status_id', cellStyle: { 'textAlign':'center', width: '10%'}},
     ]
 
-    if(loadingvivienda) return <Spinner/>
+    if(loadingresidencia) return <Spinner/>
 
     return ( 
         <>
@@ -92,14 +92,14 @@ const AdminViviendas = () => {
                 </div>
             </div>
 
-            { vivienda && vivienda.length > 0 ? 
+            { residencia && residencia.length > 0 ? 
                 <Table 
                 header = {header} 
-                body={vivienda}
+                body={residencia}
                 setEdit={setEdit}
                 showItem={false}
                 deleteItem={false}
-                title={'Listado de viviendas'} 
+                title={'Listado de residencias'} 
                 /> 
                 : <p className="text-2xl text-red-500 font-bold text-center uppercase"> No se encontraron resultados </p> 
             
@@ -116,4 +116,4 @@ const AdminViviendas = () => {
      );
 }
  
-export default AdminViviendas;
+export default AdminResidencias;

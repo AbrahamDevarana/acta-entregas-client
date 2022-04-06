@@ -10,24 +10,23 @@ import {AiOutlinePlusCircle} from 'react-icons/ai'
 import { getSeccionesAction } from '../../../actions/seccionActions'
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
-import { editViviendaAction} from '../../../actions/viviendaActions';
+import { editResidenciaAction, updateResidenciaAction} from '../../../actions/residenciaActions';
 import { useEffect, useState } from 'react';
 import { getListadosAction } from '../../../actions/listadoActions';
 import Spinner from '../../../components/spinner';
 
 
-const AdminViviendasEdit = () => {
+const AdminResidenciasEdit = () => {
 
     const params = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const alert = useSelector( state => state.alert.alert )
-    const errors = useSelector ( state => state.vivienda.errors )
-    const editVivienda = useSelector( state => state.vivienda.edit)
-    const redirect = useSelector( state => state.vivienda.redirectTo)
+    const errors = useSelector ( state => state.residencia.errors )
+    const editResidencia = useSelector( state => state.residencia.edit)
+    const redirect = useSelector( state => state.residencia.redirectTo)
     const listadoDisponible = useSelector ( state => state.listado.listado)
-    const secciones = useSelector( state => state.seccion.seccion)
-    const loadingvivienda = useSelector( state => state.vivienda.loading)
+    const loadingresidencia = useSelector( state => state.residencia.loading)
     const loadinglistado = useSelector ( state => state.listado.loading)
 
 
@@ -35,104 +34,121 @@ const AdminViviendasEdit = () => {
         navigate(redirect)
     }    
 
-    const [vivienda, setVivienda ] = useState({
-        id: '',
-    })
-
     const [asignacion, setAsignacion] = useState({
         statusAsignacion: false,
         zona: "",
-        seccion_id: null,
-        vivienda_id: null
+        listado: [],
     })
 
     const {statusAsignacion, zona} = asignacion
 
     useEffect( () => {
-        if(!editVivienda){
-            dispatch(editViviendaAction(params.id))
+        if(!editResidencia){
+            dispatch(editResidenciaAction(params.id))
         }
         setAsignacion({
             ...asignacion,
-            vivienda_id:editVivienda.id,
+            residencia_id:editResidencia.id,
             
         })
         dispatch(getSeccionesAction())
-    }, [editVivienda])
+    }, [editResidencia])
 
-    const handleCheck = (e) => {        
+    const handleCheck = (e) => {    
+
         // Destructuring
         const { value, checked } = e.target;
-        const { listado } = vivienda;
+        const { listado } = asignacion;
 
         // Case 1 : The user checks the box
         if (checked) {
-            setVivienda({
-                ...vivienda,
-                listado: [...listado, value],
+            setAsignacion({
+                ...asignacion,
+                listado: [...listado, Number(value)],
             });
         }
         // Case 2  : The user unchecks the box
         else {
-            setVivienda({
-                ...vivienda,
+            setAsignacion({
+                ...asignacion,
                 listado: listado.filter((e) => e !== value),
             });
         }
     };
-
+    
     const handleAsignacion = (e, descripcion, id) => {
         e.preventDefault()
-        const idSeccionSeleccionada = e.target.dataset.id
-        
+        console.log(asignacion);
+        // console.log(listado_many);
+       
        if(!listadoDisponible || listadoDisponible.length === 0 ){
             dispatch(getListadosAction())
        }
-
             setAsignacion({
                 ...asignacion,
                 statusAsignacion: true,
-                zona: descripcion,
                 seccion_id: id,
-                
+                zona: descripcion,
+                listado: listado_many.map(item => Number(item.pivot.seccion_id) === Number(id)?  item.id : "" ) 
             })
-
+            
     }
 
-    const { listado:listado_vivienda, secciones:secciones_vivienda } = editVivienda
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(asignacion.listado.length > 0 && asignacion.listado){
+            dispatch(updateResidenciaAction(asignacion))
+        }
+    }
 
-    if(loadingvivienda) return <Spinner/>
+    
+
+    const {  prototipo, folio , listado_many} = editResidencia
+    
+
+    if(loadingresidencia) return <Spinner/>
 
     return ( 
     <>
         <div className='grid grid-cols-12'>
-            <div className={`gap-x-10 transition-all duration-500 ease-in-out col-span-10 m-auto w-full px-5 py-10 ${ !statusAsignacion? "col-start-2" : null }`}>
-                <h1 className='font-mulish text-4xl text-center font-bold uppercase py-4 text-devarana-midnight'>Vivienda</h1>
+            <div className={`gap-x-10 col-span-9 mx-auto w-full px-5 py-10 ${ !statusAsignacion? "col-start-3" : null }`}>
+                <h1 className='font-mulish text-4xl text-center py-4 text-devarana-midnight'>Residencia: <span className='font-extralight'>{folio} | {prototipo ? prototipo.nombre : null }</span> </h1>
                 <ErrorDisplay alert={alert} errors={errors} />
 
-                <form action="">
                     <div className='grid grid-cols-3'>
-                    { secciones_vivienda && secciones_vivienda.length > 0 ? 
-                        secciones_vivienda.map( (item, i) => (
+                    { prototipo && prototipo.secciones && prototipo.secciones.length > 0 ? 
+                        prototipo.secciones.map( (item, i) => (
                             <div key={i} className="col-span-1" >
-                                <h1 id={`btnSelected-${item.id}`} className="font-bold text-lg pt-4 font-mulish btnSelection">{ item.descripcion } <Button type="button" data-id={item.id} className="border-0 hover:text-devarana-pink" onClick={(e) => handleAsignacion(e, item.descripcion, item.id)}> <AiOutlinePlusCircle data-id={item.id} /> </Button> </h1>
+                                <h1 id={`btnSelected-${item.id}`} className="font-bold text-lg pt-4 font-mulish btnSelection">
+                                    { item.descripcion } 
+                                    <Button type="button" data-id={item.id} className="border-0 hover:text-devarana-pink" onClick={(e) => handleAsignacion(e, item.descripcion, item.id)}> <AiOutlinePlusCircle data-id={item.id} /> </Button> 
+                                </h1>
                                 <div> 
+                                    {listado_many && listado_many.length > 0?
+                                        listado_many.map( elem => (
+                                            elem.pivot.seccion_id === item.id?
+                                            <p>{elem.descripcion}</p>
+                                            : null
+                                        ))
+                                        : null
+                                    }
                                 </div>
                             </div>
                         ) )
                         
                         : 
 
-                        null
-                
+                        <div className='col-span-3'>
+                            <h1 className='text-center text-2xl  text-devarana-pink'> Hubo un error al cargar o el plano no se ha cargado en el prototipo, favor verificar</h1>
+                            <Button type="button" className="block mx-auto my-4 border-devarana-midnight" onClick={ () => navigate("/admin/residencias") }> Volver </Button>
+                        </div>
                     }
                     </div>
-                </form>
             </div>
             {
                 statusAsignacion ?
-                    <div className='col-span-2 py-10 m-auto'>
-                        <div className='overflow-y-scroll max-h-96'>
+                    <div className='col-span-3 py-10 m-auto w-full'>
+                        <div className='overflow-y-scroll max-h-96 '>
                             <h1 className='text-center py-2 font-mulish font-bold'> {zona ? zona : null } </h1>
                             <ul>
                             { loadinglistado || !listadoDisponible ? <Spinner/> : 
@@ -140,7 +156,7 @@ const AdminViviendasEdit = () => {
                                 listadoDisponible && listadoDisponible.length> 0 ? 
                                 listadoDisponible.map(( item, index) => (
                                     <div key={index} className="py-1">
-                                        <input type="checkbox" id={`chkListado${item.id}`} value={item.id} name="lista" className='rounded-md shadow-md my-1 mx-2'/>
+                                        <input type="checkbox" id={`chkListado${item.id}`} onChange={handleCheck} value={item.id} name="lista" className='rounded-md shadow-md my-1 mx-2'/>
                                         <label htmlFor={`chkListado${item.id}`} className='cursor-pointer'>{item.descripcion} </label>
                                     </div>
                                 ))
@@ -152,7 +168,7 @@ const AdminViviendasEdit = () => {
                             </ul>
                         </div>
                         <div className='pt-4'>
-                            <Button className="block m-auto border-devarana-midnight"> Agregar Seleccionados</Button>
+                            <Button className="block m-auto border-devarana-midnight" onClick={ (e) => {handleSubmit(e)}}> Agregar Seleccionados</Button>
                             <Button className="block m-auto bg-devarana-pink text-devarana-pearl my-2" onClick={ () => setAsignacion({ statusAsignacion:false })}> Cancelar </Button>
                             
                         </div>
@@ -166,4 +182,4 @@ const AdminViviendasEdit = () => {
     );
 }
  
-export default AdminViviendasEdit;
+export default AdminResidenciasEdit;

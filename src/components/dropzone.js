@@ -88,7 +88,7 @@ const Dropzone = ({setFoto, thumbS}) => {
         // </div>
         <section>
             <aside className="m-auto">
-                {thumbs}
+              {thumbs}
             </aside>
             <div {...getRootProps({style})}>
                 <input {...getInputProps()} />

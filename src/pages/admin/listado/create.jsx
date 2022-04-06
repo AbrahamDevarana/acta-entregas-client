@@ -2,11 +2,12 @@ import Input from '../../../components/input'
 import Select from '../../../components/select'
 import Button from '../../../components/button';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createNewListadoAction } from '../../../actions/listadoActions';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../../../components/errors';
+import { getDesarrollosAction } from '../../../actions/desarrolloActions';
 
 
 
@@ -18,6 +19,7 @@ const AdminListadoCreate = () => {
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector( state => state.listado.errors)
     const redirect = useSelector( state => state.listado.redirectTo)
+    const desarrollos = useSelector( state => state.desarrollo.desarrollo)
 
     if(redirect){
         navigate(redirect)
@@ -25,10 +27,15 @@ const AdminListadoCreate = () => {
 
     const [listado, setListado ] = useState({
         descripcion: '',
+        desarrollo_id: '',
         tipoListado: ''
     })
 
-    const { descripcion, tipoListado } = listado
+    const { descripcion, tipoListado, desarrollo_id } = listado
+
+    useEffect(() => {
+        dispatch(getDesarrollosAction())
+    }, []);
 
     const handleChange = e => {
         setListado({
@@ -39,7 +46,7 @@ const AdminListadoCreate = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if( descripcion.trim() === '' || tipoListado === ''){
+        if( descripcion.trim() === '' || tipoListado === '' || desarrollo_id === ''){
             const alert = {
                 msg: "Todos los campos requeridos.",
                 classes: "text-center font-bold uppercase text-red-500"
@@ -66,6 +73,16 @@ const AdminListadoCreate = () => {
                         <option value="1">Cliente</option>
                         <option value="2">Especial</option>
                         <option value="3">Calidad</option>
+                    </Select>
+                    <Select className="w-full" onChange={handleChange} name="desarrollo_id" value={desarrollo_id}>
+                        <option value="">-- Selecciona un desarrollo --</option>
+                        {desarrollos && desarrollos.length > 0 ?
+                            desarrollos.map((item, index) => (
+                                <option key={index} value={item.id}>{item.descripcion}</option>
+                            ))
+                        :   
+                        null
+                        }
                     </Select>
                     <Button className={"bg-devarana-midnight text-white mt-6 block ml-auto"}> Guardar </Button>
                 </form>

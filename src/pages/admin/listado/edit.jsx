@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { editListadoAction, updateListadoAction } from '../../../actions/listadoActions';
 import { useEffect, useState } from 'react';
+import { getDesarrollosAction } from '../../../actions/desarrolloActions';
 
 const AdminListadoEdit = () => {
 
@@ -20,6 +21,7 @@ const AdminListadoEdit = () => {
     const editListado = useSelector( state => state.listado.edit)
     const loading = useSelector( state => state.listado.loading)
     const redirect = useSelector( state => state.listado.redirectTo)
+    const desarrollos = useSelector( state => state.desarrollo.desarrollo)
 
     if(redirect){
         navigate(redirect)
@@ -28,6 +30,7 @@ const AdminListadoEdit = () => {
 
     const [listado, setListado ] = useState({
         descripcion: '',
+        desarrollo_id: '',
         tipoListado: ''
     })
 
@@ -35,11 +38,12 @@ const AdminListadoEdit = () => {
         if(!editListado){
             dispatch(editListadoAction(params.id))
         }
+        dispatch(getDesarrollosAction())
         setListado(editListado)
         // eslint-disable-next-line 
     }, [editListado])
 
-    const { descripcion, tipoListado } = listado
+    const { descripcion, tipoListado, desarrollo_id } = listado
 
     const handleChange = e => {
         setListado({
@@ -50,7 +54,7 @@ const AdminListadoEdit = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if( descripcion.trim() === '' || tipoListado === ''){
+        if( descripcion.trim() === '' || tipoListado === '' || desarrollo_id === ''){
             const alert = {
                 msg: "Todos los campos requeridos.",
                 classes: "text-center font-bold uppercase text-red-500"
@@ -79,6 +83,16 @@ const AdminListadoEdit = () => {
                 <option value="1">Cliente</option>
                 <option value="2">Especial</option>
                 <option value="3">Calidad</option>
+            </Select>
+            <Select className="w-full" onChange={handleChange} name="desarrollo_id" value={desarrollo_id}>
+                <option value="">-- Selecciona un desarrollo --</option>
+                {desarrollos && desarrollos.length > 0 ?
+                    desarrollos.map((item, index) => (
+                        <option key={index} value={item.id}>{item.descripcion}</option>
+                    ))
+                :   
+                null
+                }
             </Select>
             <Button className={"bg-devarana-midnight text-white mt-6 block ml-auto"}> Guardar </Button>
         </form>

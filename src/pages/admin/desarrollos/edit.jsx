@@ -9,7 +9,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { editDesarrolloAction, updateDesarrolloAction } from '../../../actions/desarrolloActions';
 import { useEffect, useState } from 'react';
 import Dropzone from '../../../components/dropzone';
-
+import Swal from 'sweetalert2';
 import {FiDelete} from 'react-icons/fi'
 
 
@@ -96,12 +96,26 @@ const AdminDesarrolloEdit = () => {
 
     const handleDeleteOldEtapa = (e, borrar) => {
         e.preventDefault()
-        setDesarrollo({
-            ...desarrollo,
-            etapas: etapas.filter( item => item.id !== borrar),
-            etapaEliminada: [...etapaEliminada, borrar]
-        })
-        console.log(etapaEliminada);
+
+        Swal.fire({
+            title: 'Estás seguro(a)?',
+            text: "Esta estapa se eliminara una vez que presiones guardar!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Estoy seguro(a)!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                setDesarrollo({
+                    ...desarrollo,
+                    etapas: etapas.filter( item => item.id !== borrar),
+                    etapaEliminada: [...etapaEliminada, borrar]
+                })
+            }
+          })
+        
     }
     const handleDeleteEtapa = (e, borrar) => {
         e.preventDefault()
@@ -109,6 +123,7 @@ const AdminDesarrolloEdit = () => {
             ...desarrollo,
             nuevaEtapa: nuevaEtapa.filter( item => item !== borrar)
         })
+
     }
  
     
@@ -121,7 +136,7 @@ const AdminDesarrolloEdit = () => {
             <Button className={"bg-devarana-graph text-white mb-4 block uppercase"} onClick={ () => navigate(-1)}> Volver </Button>
 
             <h1 className='font-mulish text-4xl text-center font-bold uppercase py-4 text-devarana-midnight'>{descripcion}</h1>
-            <ErrorDisplay alert={alert} errors={errors} />
+            
 
             <form action="" onSubmit={handleSubmit}>
                 <div id='preview'>
@@ -130,6 +145,7 @@ const AdminDesarrolloEdit = () => {
                 <div className='py-2'>
                     <Dropzone setFoto={setFoto}/>
                 </div>
+                <ErrorDisplay alert={alert} errors={errors} />
                 <label htmlFor="" className='text-devarana-midnight'>Nombre de Desarrollo</label>    
                 <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
                 <div className='grid grid-cols-3 gap-x-10 gap-y-2'>
@@ -137,8 +153,8 @@ const AdminDesarrolloEdit = () => {
                     { etapas && etapas.length > 0? 
                          etapas.map( (item, i) => (
                             // <div className='col-span-1 border shadow py-2 px-2 inline-flex hover:bg-devarana-babyblue transition-all ease-in-out duration-700' key={i}> <Link className='w-full' to={`etapa/${item.id}`}> {item.descripcion} </Link> <button className='ml-auto mr-3 px-2 hover:bg-devarana-pink hover:text-devarana-pearl' onClick={(e) => handleDeleteOldEtapa(e, item.id) }> <FiDelete/> </button> </div>
-                            <Link to={`/admin/etapas/${item.id}`} className='col-span-1 border shadow py-2 px-2 hover:bg-devarana-babyblue hover:text-devarana-pearl transition-all ease-in-out duration-300'>
-                                <div className='w-full inline-flex' key={i}> 
+                            <Link key={i} to={`/admin/etapas/${item.id}`} className='col-span-1 border shadow py-2 px-2 hover:bg-devarana-babyblue hover:text-devarana-pearl transition-all ease-in-out duration-300'>
+                                <div className='w-full inline-flex'> 
                                     {item.descripcion}
                                     <button type="button" className='ml-auto mr-1 px-2 rounded-sm hover:text-devarana-pink hover:border hover:border-devarana-pink transition-all ease-in-out duration-200' onClick={(e) => handleDeleteOldEtapa(e, item.id) }> <FiDelete/> </button> 
                                 </div>

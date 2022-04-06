@@ -83,6 +83,37 @@ const getSeccionesError = payload => ({
 })
 
 
+// all seccion
+
+export function getSeccionAction(id){
+    return async (dispatch) => {
+        dispatch (getSecciones())
+        await clientAxios.get(`seccion/${id}`)
+        .then( response => {
+            dispatch(getSeccionesSuccess(response.data.seccion))
+        })
+        .catch(error => {
+            dispatch(getSeccionesError(error.response.data))
+        })
+    }
+}
+
+const getSeccion = () => ({
+    type: VIEW_SECCION,
+    payload: true
+})
+
+const getSeccionSuccess = payload => ({
+    type: VIEW_SECCION_SUCCESS,
+    payload
+})
+
+const getSeccionError = payload => ({
+    type: VIEW_SECCION_ERROR,
+    payload
+})
+
+
 // Get EDIT
 
 export function editSeccionAction(id) {

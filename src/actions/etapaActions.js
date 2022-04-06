@@ -19,7 +19,10 @@ import {
     DELETE_ETAPA_SUCCESS,
     DELETE_ETAPA_ERROR,
     CLEAN_ETAPA,
-    REDIRECT
+    REDIRECT,
+    SET_RELACION_ETAPA_SUCCESS,
+    SET_RELACION_ETAPA_ERROR,
+    SET_RELACION_ETAPA
 } from '../types'
 import Swal from 'sweetalert2'
 
@@ -255,4 +258,33 @@ const upgradeEtapaSuccess = payload => ({
 const upgradeEtapaError = payload => ({
     type: UPGRADE_ETAPA_ERROR,
     payload
+})
+
+export function setRelacionAction(prototipos){
+    return async dispatch => {
+        dispatch(setRelacion(prototipos))
+        await clientAxios.post(`etapa/relacion/${prototipos.id}`, prototipos)
+        .then(response => {
+            dispatch(setRelacionSuccess(response.data.etapa))
+        })
+        .catch( error => {
+            dispatch(setRelacionError(error.response.data))
+        })
+    }
+}
+
+
+const setRelacionSuccess = payload => ({
+    type: SET_RELACION_ETAPA_SUCCESS,
+    payload
+})
+
+const setRelacionError = payload => ({
+    type: SET_RELACION_ETAPA_ERROR,
+    payload
+})
+
+const setRelacion = () => ({   
+    type: SET_RELACION_ETAPA,
+    payload: false
 })

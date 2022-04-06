@@ -5,7 +5,7 @@ import ErrorDisplay from "../../components/errors";
 import Button from "../../components/button";
 import Input from "../../components/input";
 import Select from "../../components/select";
-import { getViviendasAction } from "../../actions/viviendaActions";
+import { getResidenciasAction } from "../../actions/residenciaActions";
 
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 
@@ -14,22 +14,22 @@ const Registro = () => {
 
     const dispatch = useDispatch()
     
-    const viviendas = useSelector( state => state.vivienda.vivienda)
+    const residencias = useSelector( state => state.residencia.residencia)
     const alert = useSelector( state => state.alert.alert )
     const errors = useSelector( state => state.seccion.errors)
     
     const [dropDown, setDropDown] = useState(false)
-    const [viviendaList, setViviendaList] = useState({})
+    const [residenciaList, setViviendaList] = useState({})
     const [cliente, setCliente] = useState({
         name: '',
         email: '',
-        vivienda: '',
+        residencia: '',
         clienteForm: true,
         asesor: '',
         tipoEntrega: ''
     });
 
-    const {name, email, vivienda, asesor, tipoEntrega} = cliente
+    const {name, email, residencia, asesor, tipoEntrega} = cliente
 
     const handleChange = e => {
         setCliente({
@@ -39,11 +39,11 @@ const Registro = () => {
     }
 
     useEffect ( () => {
-        setViviendaList(viviendas)
-    }, [viviendas])
+        setViviendaList(residencias)
+    }, [residencias])
 
     const handleLoad = () => {
-        dispatch(getViviendasAction())
+        dispatch(getResidenciasAction())
         setDropDown(!dropDown)
     }
 
@@ -52,14 +52,14 @@ const Registro = () => {
     }
 
     const filter = (word) => {
-        const result = viviendas.filter( item => item.folio.includes(word))
+        const result = residencias.filter( item => item.folio.includes(word))
         setViviendaList(result)
     }
 
-    const handleSelect = (vivienda) => {
+    const handleSelect = (residencia) => {
         setCliente({
             ...cliente,
-            vivienda
+            residencia
         });
         setDropDown(false)
     }
@@ -67,7 +67,7 @@ const Registro = () => {
     const handleSubmit = e => {
         e.preventDefault()
 
-        if( email.trim() === '' || name.trim() === '' || vivienda !== ''){
+        if( email.trim() === '' || name.trim() === '' || residencia !== ''){
             const alert = {
                 msg: "Todos los campos requeridos.",
                 classes: "text-center font-bold uppercase text-red-500"
@@ -82,7 +82,7 @@ const Registro = () => {
                 name: '',
                 email: '',
                 clienteForm: true,
-                vivienda: '',
+                residencia: '',
                 asesor: '',
                 tipoEntrega: ''
             })
@@ -130,8 +130,8 @@ const Registro = () => {
                             <div className={`w-full bg-white bordershadow-sm rounded-sm my-2 p-2 ${ dropDown? "block" : "hidden" }`}>
                                 <Input onChange={handleSearch} className="w-full border rounded-md px-3 py-2 shadow-md my-2" placeholder="Buscar Vivienda"/>
                                 <ul className="max-h-32 overflow-y-scroll">
-                                    {viviendaList && viviendaList.length > 0?
-                                        viviendaList.map(( item, i ) => (
+                                    {residenciaList && residenciaList.length > 0?
+                                        residenciaList.map(( item, i ) => (
                                             <li key={i} onClick={() => handleSelect(item)} className="hover:bg-gray-200 cursor-pointer"> {item.folio} </li>
                                         ))
                                         :
@@ -139,8 +139,8 @@ const Registro = () => {
                                     }
                                 </ul>
                             </div>
-                            { cliente.vivienda? 
-                                <h2 className="text-devarana-pearl font-mulish py-4">Vivienda Seleccionado: {cliente.vivienda.folio}</h2>
+                            { cliente.residencia? 
+                                <h2 className="text-devarana-pearl font-mulish py-4">Vivienda Seleccionado: {cliente.residencia.folio}</h2>
                                 :
                                 null
                             }

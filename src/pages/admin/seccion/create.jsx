@@ -1,5 +1,7 @@
 import Input from '../../../components/input'
 import Button from '../../../components/button';
+import Select from '../../../components/select';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { createNewSeccionAction } from '../../../actions/seccionActions';
@@ -7,6 +9,8 @@ import { showAlertAction, hideAlertAction } from '../../../actions/alertActions'
 import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../../../components/errors';
 import { getListadosAction } from '../../../actions/listadoActions';
+import { getDesarrollosAction } from '../../../actions/desarrolloActions';
+
 
 
 
@@ -19,18 +23,21 @@ const AdminSeccionCreate = () => {
     const errors = useSelector( state => state.seccion.errors)
     const listado = useSelector (state => state.listado.listado)
     const redirect = useSelector( state => state.seccion.redirectTo)
+    const desarrollos = useSelector( state => state.desarrollo.desarrollo)
     if(redirect){
         navigate(redirect)
     }
     useEffect( () => {
         dispatch(getListadosAction())
         // setCheckedState(new Array(listado.length).fill(false))
+        dispatch(getDesarrollosAction())
         // eslint-disable-next-line 
     }, [])
 
     
     const [seccion, setSeccion ] = useState({
         descripcion: '',
+        desarrollo_id: '',
         lista: []
     })
     const handleCheck = (e) => {        
@@ -54,7 +61,7 @@ const AdminSeccionCreate = () => {
         }
     };
 
-    const { descripcion } = seccion
+    const { descripcion, desarrollo_id } = seccion
 
     const handleChange = e => {
         setSeccion({
@@ -65,7 +72,7 @@ const AdminSeccionCreate = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if( descripcion.trim() === ''){
+        if( descripcion.trim() === '' || desarrollo_id === ''){
             const alert = {
                 msg: "Todos los campos requeridos.",
                 classes: "text-center font-bold uppercase text-red-500"
@@ -84,8 +91,23 @@ const AdminSeccionCreate = () => {
                 <ErrorDisplay alert={alert} errors={errors} />
 
                 <form action="" onSubmit={handleSubmit}>
-                    <label htmlFor="" className='text-devarana-midnight'>Nombre de Sección</label>    
-                    <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
+                    <div className="py-2">
+                        <label htmlFor="" className='text-devarana-midnight'>Nombre de Sección</label>    
+                        <Input className="block w-full border rounded-md px-3 py-1 shadow-md my-2" name="descripcion" onChange={handleChange} value={descripcion}></Input>
+                    </div>
+                    <div className='py-2'>
+                        <label htmlFor="" className='text-devarana-midnight'>Desarrollo</label>    
+                        <Select className="w-full" onChange={handleChange} name="desarrollo_id" value={desarrollo_id}>
+                            <option value="">-- Selecciona un desarrollo --</option>
+                            {desarrollos && desarrollos.length > 0 ?
+                                desarrollos.map((item, index) => (
+                                    <option key={index} value={item.id}>{item.descripcion}</option>
+                                ))
+                            :   
+                            null
+                            }
+                        </Select>
+                    </div>
 
                     <div className='py-4'>
                         <h2 className='font-mulish font-bold text-2xl py-2'>Lista de elementos </h2> 
