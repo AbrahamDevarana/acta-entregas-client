@@ -1,7 +1,7 @@
 import LayoutApp from '../layouts/LayoutApp'
 import Registro from '../pages/home/registro'
 import Home from '../pages/home/home'
-import PlanoDepartamento from '../pages/home/departamento'
+import PlanoDepartamento from '../pages/home/residencia'
 import Listado from '../pages/home/listado'
 
 import LayoutLogin from '../layouts/LayoutLogin'
@@ -149,20 +149,15 @@ const routesClient = [
     {
         path: "/",
         layout: LayoutApp,
-        component: Registro,
-    },
-    {
-        path: "/comenzar",
-        layout: LayoutApp,
         component: Home,
     },
     {
-        path: "/vivienda",
+        path: "/residencia",
         layout: LayoutApp,
         component: PlanoDepartamento,
     },
     {
-        path: "/vivienda/listado",
+        path: "/residencia/listado",
         layout: LayoutApp,
         component: Listado,
     },
