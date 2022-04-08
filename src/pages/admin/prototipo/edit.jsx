@@ -150,7 +150,7 @@ const AdminPrototipoEdit = () => {
                 { prototipo && prototipo.id !== '' ? 
                     <ReactSVG 
                         src={`${process.env.REACT_APP_URL}/obtenerPlano/${prototipo.id}`}
-                        afterInjection={() => {calcularPrototipo(); verificarZonas()}}
+                        afterInjection={(err, svg) => {calcularPrototipo(); verificarZonas(); }}
                         loading={() => <Spinner/> }
                     />
                     

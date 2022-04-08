@@ -7,7 +7,7 @@ import logo from "../assets/static/img/DEVARANAlogo.svg"
 import isotipo from "../assets/static/img/IsotipoDEVARANA.svg"
 import {BiBuildingHouse} from "react-icons/bi"
 import {BsBuilding, BsCardChecklist, BsCalendarWeek} from 'react-icons/bs'
-import {AiOutlineUsergroupAdd, AiOutlineDown, AiOutlineUp} from 'react-icons/ai'
+import {AiOutlineUsergroupAdd, AiOutlineDown} from 'react-icons/ai'
 import {SiProtonvpn} from 'react-icons/si'
 
 const LayoutAdmin = (props) => {
@@ -17,7 +17,7 @@ const LayoutAdmin = (props) => {
     const navigate = useNavigate()
     const authorized = useSelector(state => state.auth)
     const {auth} = authorized
-    const { name, foto, id } = authorized.user 
+    const { name, id } = authorized.user 
 
     const [acordeon, setAcordeon ] = useState(true)
 
@@ -44,7 +44,7 @@ const LayoutAdmin = (props) => {
         <>
         <div className='flex'>
         <aside className='min-h-screen w-16 sm:w-64 shadow flex-col justify-between bg-devarana-blue'>
-            <a href=""> <img src={logo} alt=""  className="w-full fill-devarana-pearl p-3"/> </a>
+            <a href="/"> <img src={logo} alt=""  className="w-full fill-devarana-pearl p-3"/> </a>
             <ul className='px-5'>
                 <Link to={'/admin'}><li className='list-menu'> <img src={isotipo} alt="Devarana" className="w-7 mx-2" /> Dashboard </li></Link>
                 <hr className="py-2"/>
