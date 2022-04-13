@@ -59,7 +59,7 @@ const LayoutAdmin = (props) => {
                 <Link to={'/admin/residencias'}><li className='list-menu'> <span className="text-2xl px-2"> <BiBuildingHouse/></span> <p>Residencias</p> </li></Link>
                 <Link to={'/admin/listado'}><li className='list-menu'> <span className="text-2xl px-2"> <BsCardChecklist/></span> <p>Elementos</p> </li></Link>
                 <Link to={'/admin/usuarios'}><li className='list-menu'> <span className="text-2xl px-2"> <AiOutlineUsergroupAdd/></span> <p>Usuarios</p> </li></Link> 
-                <Link to={'/admin/seccion'}><li className='list-menu'><p>Zonas</p> </li></Link>
+                <Link to={'/admin/zona'}><li className='list-menu'><p>Zonas</p> </li></Link>
                 <hr className="py-2"/>
             </ul>
         </aside>

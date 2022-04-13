@@ -67,7 +67,6 @@ const AdminEtapasView = () => {
     }, [change]);
 
     const handleSubmit = () => {
-        // console.log(asignarPrototipo);
         dispatch(setRelacionAction(asignarPrototipo))
     }
 

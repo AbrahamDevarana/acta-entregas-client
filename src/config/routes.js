@@ -10,12 +10,12 @@ import LayoutAdmin from '../layouts/LayoutAdmin'
 import AdminHome from '../pages/admin'
 import AdminResidencias from '../pages/admin/residencia'
 import AdminResidenciasEdit from '../pages/admin/residencia/edit'
-import AdminSeccion from '../pages/admin/seccion'
+import AdminZona from '../pages/admin/zona'
 import AdminListado from '../pages/admin/listado'
 import AdminListadoCreate from '../pages/admin/listado/create'
 import AdminListadoEdit from '../pages/admin/listado/edit'
-import AdminSeccionCreate from '../pages/admin/seccion/create'
-import AdminSeccionEdit from '../pages/admin/seccion/edit'
+import AdminZonaCreate from '../pages/admin/zona/create'
+import AdminZonaEdit from '../pages/admin/zona/edit'
 import AdminUsuario from '../pages/admin/usuarios'
 import AdminUsuarioCreate from '../pages/admin/usuarios/create'
 import AdminUsuarioEdit from '../pages/admin/usuarios/edit'
@@ -62,19 +62,19 @@ const routesAdmin = [
         component: AdminResidenciasEdit,
     },
     {
-        path: "/admin/seccion",
+        path: "/admin/zona",
         layout: LayoutAdmin,
-        component: AdminSeccion,
+        component: AdminZona,
     },
     {
-        path: "/admin/seccion/create",
+        path: "/admin/zona/create",
         layout: LayoutAdmin,
-        component: AdminSeccionCreate,
+        component: AdminZonaCreate,
     },
     {
-        path: "/admin/seccion/edit/:id",
+        path: "/admin/zona/edit/:id",
         layout: LayoutAdmin,
-        component: AdminSeccionEdit,
+        component: AdminZonaEdit,
     },
 
     {

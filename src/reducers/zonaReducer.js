@@ -1,26 +1,26 @@
 
 import {
-    CREATE_SECCION,
-    CREATE_SECCION_SUCCESS,
-    CREATE_SECCION_ERROR,
-    VIEW_SECCION,
-    VIEW_SECCION_SUCCESS,
-    VIEW_SECCION_ERROR,
-    DELETE_SECCION,
-    DELETE_SECCION_SUCCESS,
-    DELETE_SECCION_ERROR,
-    EDIT_SECCION,
-    EDIT_SECCION_SUCCESS,
-    EDIT_SECCION_ERROR,
-    UPDATE_SECCION,
-    UPDATE_SECCION_SUCCESS,
-    UPDATE_SECCION_ERROR,
-    CLEAN_SECCION,
+    CREATE_ZONA,
+    CREATE_ZONA_SUCCESS,
+    CREATE_ZONA_ERROR,
+    VIEW_ZONA,
+    VIEW_ZONA_SUCCESS,
+    VIEW_ZONA_ERROR,
+    DELETE_ZONA,
+    DELETE_ZONA_SUCCESS,
+    DELETE_ZONA_ERROR,
+    EDIT_ZONA,
+    EDIT_ZONA_SUCCESS,
+    EDIT_ZONA_ERROR,
+    UPDATE_ZONA,
+    UPDATE_ZONA_SUCCESS,
+    UPDATE_ZONA_ERROR,
+    CLEAN_ZONA,
     REDIRECT
 } from '../types'
 
 const initialState = {
-    seccion: [],
+    zona: [],
     errors: false,
     loading: false,
     edit: false,
@@ -32,27 +32,27 @@ const initialState = {
 export default function foo (state = initialState, action ){
     switch (action.type) {
 
-        case CREATE_SECCION:
-        case EDIT_SECCION:
-        case UPDATE_SECCION:
+        case CREATE_ZONA:
+        case EDIT_ZONA:
+        case UPDATE_ZONA:
             return {
                 ...state,
                 loading: action.payload, 
             }
-        case DELETE_SECCION:
+        case DELETE_ZONA:
             return {
                 ...state,
                 loading: true,
                 delete: action.payload,
             }
-        case CREATE_SECCION_SUCCESS:
+        case CREATE_ZONA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                seccion: [...state.seccion, action.payload],
+                zona: [...state.zona, action.payload],
                 errors: null
             }
-        case EDIT_SECCION_SUCCESS:
+        case EDIT_ZONA_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -60,48 +60,48 @@ export default function foo (state = initialState, action ){
                 edit: action.payload,
                 edition: false
             }
-        case CREATE_SECCION_ERROR:
-        case VIEW_SECCION_ERROR:
-        case EDIT_SECCION_ERROR:
-        case DELETE_SECCION_ERROR:
-        case UPDATE_SECCION_ERROR:
+        case CREATE_ZONA_ERROR:
+        case VIEW_ZONA_ERROR:
+        case EDIT_ZONA_ERROR:
+        case DELETE_ZONA_ERROR:
+        case UPDATE_ZONA_ERROR:
             return {
                 ...state,
                 loading: false,
                 errors: action.payload
             }
 
-        case VIEW_SECCION:
+        case VIEW_ZONA:
             return {
                 ...state,
                 loading: action.payload,
             }
-        case VIEW_SECCION_SUCCESS:
+        case VIEW_ZONA_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                seccion: action.payload,
+                zona: action.payload,
                 error: false
             }
-        case UPDATE_SECCION_SUCCESS:
+        case UPDATE_ZONA_SUCCESS:
             return {
                 ...state,
                 edit: false,
-                seccion: state.seccion.map ( item => item.id === action.payload.id ? item = action.payload : item )
+                zona: state.zona.map ( item => item.id === action.payload.id ? item = action.payload : item )
             }
-        case DELETE_SECCION_SUCCESS:
+        case DELETE_ZONA_SUCCESS:
             return {
                 ...state,
-                seccion: state.seccion.filter( item => item.id !== state.delete ),
+                zona: state.zona.filter( item => item.id !== state.delete ),
                 delete: null
             }
-        case CLEAN_SECCION:
+        case CLEAN_ZONA:
             return {
                 ...state,
                 errors: false,
                 edit: false,
                 delete: null,
-                redirectTo: false
+                redirectTo: false,
             }
         case REDIRECT:
             return {

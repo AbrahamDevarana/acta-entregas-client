@@ -15,7 +15,10 @@ import {
     UPDATE_PROTOTIPO_SUCCESS,
     UPDATE_PROTOTIPO_ERROR,
     CLEAN_PROTOTIPO,
-    REDIRECT
+    REDIRECT,
+    SET_RELACION_PROTOTIPO_SUCCESS,
+    SET_RELACION_PROTOTIPO_ERROR,
+    SET_RELACION_PROTOTIPO
 } from '../types'
 
 const initialState = {
@@ -34,6 +37,7 @@ export default function foo (state = initialState, action ){
         case CREATE_PROTOTIPO:
         case EDIT_PROTOTIPO:
         case UPDATE_PROTOTIPO:
+        // case SET_RELACION_PROTOTIPO:
             return {
                 ...state,
                 loading: action.payload, 
@@ -64,6 +68,7 @@ export default function foo (state = initialState, action ){
         case EDIT_PROTOTIPO_ERROR:
         case DELETE_PROTOTIPO_ERROR:
         case UPDATE_PROTOTIPO_ERROR:
+        case SET_RELACION_PROTOTIPO_ERROR:
             return {
                 ...state,
                 loading: false,
@@ -76,6 +81,7 @@ export default function foo (state = initialState, action ){
                 loading: action.payload,
             }
         case VIEW_PROTOTIPO_SUCCESS:
+        case SET_RELACION_PROTOTIPO_SUCCESS:
             return {
                 ...state,
                 loading: false,

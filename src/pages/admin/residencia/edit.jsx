@@ -7,7 +7,7 @@ import ErrorDisplay from '../../../components/errors';
 
 import {AiOutlinePlusCircle} from 'react-icons/ai'
 
-import { getSeccionesAction } from '../../../actions/seccionActions'
+import { getZonasAction } from '../../../actions/zonaActions'
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { editResidenciaAction, updateResidenciaAction} from '../../../actions/residenciaActions';
@@ -51,7 +51,7 @@ const AdminResidenciasEdit = () => {
             residencia_id:editResidencia.id,
             
         })
-        dispatch(getSeccionesAction())
+        dispatch(getZonasAction())
     }, [editResidencia])
 
     const handleCheck = (e) => {    
@@ -116,8 +116,8 @@ const AdminResidenciasEdit = () => {
                 <ErrorDisplay alert={alert} errors={errors} />
 
                     <div className='grid grid-cols-3'>
-                    { prototipo && prototipo.secciones && prototipo.secciones.length > 0 ? 
-                        prototipo.secciones.map( (item, i) => (
+                    { prototipo && prototipo.zonas && prototipo.zonas.length > 0 ? 
+                        prototipo.zonas.map( (item, i) => (
                             <div key={i} className="col-span-1" >
                                 <h1 id={`btnSelected-${item.id}`} className="font-bold text-lg pt-4 font-mulish btnSelection">
                                     { item.descripcion } 

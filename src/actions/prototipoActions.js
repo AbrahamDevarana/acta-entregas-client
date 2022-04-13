@@ -266,7 +266,7 @@ export function redirectTo(){
 export function setRelacionAction(seleccionarZona){
     return async dispatch => {
         dispatch(setRelacion(seleccionarZona))
-        await clientAxios(`/prototipo/relacion/${seleccionarZona.id}`, seleccionarZona)
+        await clientAxios.post(`/prototipo/relacion/${seleccionarZona.id}`, seleccionarZona)
         .then(response => {
             dispatch(setRelacionSuccess(response.data.prototipo))
         })

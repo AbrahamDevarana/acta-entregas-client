@@ -4,7 +4,7 @@ import Select from '../../../components/select';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { createNewSeccionAction } from '../../../actions/seccionActions';
+import { createNewZonaAction } from '../../../actions/zonaActions';
 import { showAlertAction, hideAlertAction } from '../../../actions/alertActions';
 import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from '../../../components/errors';
@@ -14,15 +14,15 @@ import { getDesarrollosAction } from '../../../actions/desarrolloActions';
 
 
 
-const AdminSeccionCreate = () => {
+const AdminZonaCreate = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const alert = useSelector( state => state.alert.alert )
-    const errors = useSelector( state => state.seccion.errors)
+    const errors = useSelector( state => state.zona.errors)
     const listado = useSelector (state => state.listado.listado)
-    const redirect = useSelector( state => state.seccion.redirectTo)
+    const redirect = useSelector( state => state.zona.redirectTo)
     const desarrollos = useSelector( state => state.desarrollo.desarrollo)
     if(redirect){
         navigate(redirect)
@@ -35,7 +35,7 @@ const AdminSeccionCreate = () => {
     }, [])
 
     
-    const [seccion, setSeccion ] = useState({
+    const [zona, setZona ] = useState({
         descripcion: '',
         desarrollo_id: '',
         lista: []
@@ -43,29 +43,29 @@ const AdminSeccionCreate = () => {
     const handleCheck = (e) => {        
         // Destructuring
         const { value, checked } = e.target;
-        const { lista } = seccion;
+        const { lista } = zona;
 
         // Case 1 : The user checks the box
         if (checked) {
-            setSeccion({
-                ...seccion,
+            setZona({
+                ...zona,
                 lista: [...lista, value],
             });
         }
         // Case 2  : The user unchecks the box
         else {
-            setSeccion({
-                ...seccion,
+            setZona({
+                ...zona,
                 lista:lista.filter((e) => e !== value),
             });
         }
     };
 
-    const { descripcion, desarrollo_id } = seccion
+    const { descripcion, desarrollo_id } = zona
 
     const handleChange = e => {
-        setSeccion({
-            ...seccion,
+        setZona({
+            ...zona,
             [e.target.name]:e.target.value
         })
     }
@@ -81,7 +81,7 @@ const AdminSeccionCreate = () => {
             return
         }
         dispatch(hideAlertAction())
-        dispatch(createNewSeccionAction(seccion))
+        dispatch(createNewZonaAction(zona))
     }
 
     return ( 
@@ -136,4 +136,4 @@ const AdminSeccionCreate = () => {
      );
 }
  
-export default AdminSeccionCreate;
+export default AdminZonaCreate;

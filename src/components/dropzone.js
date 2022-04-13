@@ -33,7 +33,7 @@ const Dropzone = ({setFoto, thumbS}) => {
 
   const [files, setFiles] = useState([]);
   
-  const fileType = "image/jpeg, image/png, .svg"
+  const fileType = "image/jpeg, image/png, image/svg+xml"
 
   const onDrop = useCallback(acceptedFiles => {
       const preview = document.getElementById("preview")
@@ -53,7 +53,8 @@ const Dropzone = ({setFoto, thumbS}) => {
         getInputProps,
         isDragActive,
         isDragAccept,
-        isDragReject
+        isDragReject,
+        fileRejections
     } = useDropzone({
         onDrop,
         accept: fileType,
@@ -65,7 +66,8 @@ const Dropzone = ({setFoto, thumbS}) => {
         ...baseStyle,
         ...(isDragActive ? activeStyle : {}),
         ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ? rejectStyle : {})
+        ...(isDragReject ? rejectStyle : {}),
+        ...(!fileRejections ? rejectStyle : {})
       }), [
         isDragActive,
         isDragReject,
@@ -82,23 +84,18 @@ const Dropzone = ({setFoto, thumbS}) => {
         </div>
       ));
     return ( 
-        // <div {...getRootProps()} className="p-4 border shadow rounded hover:bg-devarana-graph hover:bg-opacity-30">
-        //     <input className="border shadow rounded px-2 py-4" {...getInputProps()} />
-        //     <div>Arrastra tu aquí o da click.</div>
-        // </div>
         <section>
             <aside className="m-auto">
               {thumbs}
             </aside>
             <div {...getRootProps({style})}>
-                <input {...getInputProps()} />
+                <input id="img-uploader" {...getInputProps() } />
             <div>
                 {isDragAccept && (<p>Imagen Válida</p>)}
                 {isDragReject && (<p>Archivo no es válido</p>)}
                 {!isDragActive && (<p>Arrastra tu imagen o da click</p>)}
             </div>
             </div>
-            
         </section>
      );
 }

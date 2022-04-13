@@ -1,32 +1,32 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteSeccionAction, editSeccionAction, getSeccionesAction, cleanSeccionAction } from '../../../actions/seccionActions';
+import { deleteZonaAction, editZonaAction, getZonasAction, cleanZonaAction } from '../../../actions/zonaActions';
 import Button from '../../../components/button';
 import Spinner from '../../../components/spinner';
 import Table from '../../../components/Table'
 
 
-const AdminSeccion = () => {
+const AdminZona = () => {
 
-    const seccion = useSelector(state => state.seccion.seccion)
-    const loading = useSelector(state => state.seccion.loading)
+    const zona = useSelector(state => state.zona.zona)
+    const loading = useSelector(state => state.zona.loading)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect ( ()=> { 
-        dispatch(getSeccionesAction())
-        dispatch(cleanSeccionAction())
+        dispatch(getZonasAction())
+        dispatch(cleanZonaAction())
         // eslint-disable-next-line 
     }, [])
 
     const setEdit = (id) => {
-        dispatch( editSeccionAction(id) )
+        dispatch( editZonaAction(id) )
         navigate(`edit/${id}`)
     }
 
     const deleteItem = ( id ) => {
-        dispatch(deleteSeccionAction(id))
+        dispatch(deleteZonaAction(id))
     }
     const header = [
         {title: 'ID', field: 'id', cellStyle: { 'textAlign':'center', width: '10%' }}, 
@@ -41,14 +41,14 @@ const AdminSeccion = () => {
 
         <Button className={"bg-devarana-midnight text-white mb-4 block ml-auto uppercase"} onClick={ () => navigate("create")}><i className="fa-solid fa-plus"></i> nuevo</Button>
 
-        { seccion && seccion.length > 0 ? 
+        { zona && zona.length > 0 ? 
             <Table 
             header = {header} 
-            body={seccion}
+            body={zona}
             setEdit={setEdit}
             showItem={false}
             deleteItem={deleteItem}
-            title={'Listado de secciones'} 
+            title={'Listado de zonaes'} 
             /> 
             : <p className="text-2xl text-red-500 font-bold text-center uppercase"> No se encontraron resultados </p> 
         
@@ -57,4 +57,4 @@ const AdminSeccion = () => {
      );
 }
  
-export default AdminSeccion;
+export default AdminZona;

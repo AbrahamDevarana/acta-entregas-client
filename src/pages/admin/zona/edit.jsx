@@ -7,19 +7,19 @@ import { showAlertAction, hideAlertAction } from '../../../actions/alertActions'
 
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
-import { editSeccionAction, updateSeccionAction } from '../../../actions/seccionActions';
+import { editZonaAction, updateZonaAction } from '../../../actions/zonaActions';
 import { useEffect, useState } from 'react';
 import { getListadosAction } from '../../../actions/listadoActions';
 import { getDesarrollosAction } from '../../../actions/desarrolloActions';
 
-const AdminSeccionEdit = () => {
+const AdminZonaEdit = () => {
 
     const params = useParams()
 
     const alert = useSelector( state => state.alert.alert )
-    const errors = useSelector ( state => state.seccion.errors )
-    const editSeccion = useSelector( state => state.seccion.edit)
-    const redirect = useSelector( state => state.seccion.redirectTo)
+    const errors = useSelector ( state => state.zona.errors )
+    const editZona = useSelector( state => state.zona.edit)
+    const redirect = useSelector( state => state.zona.redirectTo)
     const listado = useSelector (state => state.listado.listado)
     const loading = useSelector (state => state.listado.loading)
     const desarrollos = useSelector( state => state.desarrollo.desarrollo)
@@ -31,7 +31,7 @@ const AdminSeccionEdit = () => {
     }
     
 
-    const [seccion, setSeccion ] = useState({
+    const [zona, setZona ] = useState({
         id: '',
         descripcion: '',
         desarrollo_id: '',
@@ -39,20 +39,20 @@ const AdminSeccionEdit = () => {
     })
 
     useEffect( () => {
-        if(!editSeccion){
-            dispatch(editSeccionAction(params.id))
+        if(!editZona){
+            dispatch(editZonaAction(params.id))
         }
-        setSeccion({id: editSeccion.id, desarrollo_id: editSeccion.desarrollo_id, descripcion : editSeccion.descripcion, lista: editSeccion.listado? editSeccion.listado.map( item => `${item.id}` ) : null })
+        setZona({id: editZona.id, desarrollo_id: editZona.desarrollo_id, descripcion : editZona.descripcion, lista: editZona.listado? editZona.listado.map( item => `${item.id}` ) : null })
         dispatch(getListadosAction())
         dispatch(getDesarrollosAction())
         // eslint-disable-next-line 
-    }, [editSeccion])
+    }, [editZona])
 
-    const { descripcion, desarrollo_id } = seccion
+    const { descripcion, desarrollo_id } = zona
 
     const handleChange = e => {
-        setSeccion({
-            ...seccion,
+        setZona({
+            ...zona,
             [e.target.name]:e.target.value
         })
     }
@@ -61,19 +61,19 @@ const AdminSeccionEdit = () => {
     const handleCheck = (e) => {        
         // Destructuring
         const { value, checked } = e.target;
-        const { lista } = seccion;
+        const { lista } = zona;
 
         // Case 1 : The user checks the box
         if (checked) {
-            setSeccion({
-                ...seccion,
+            setZona({
+                ...zona,
                 lista: [...lista, value],
             });
         }
         // Case 2  : The user unchecks the box
         else {
-            setSeccion({
-                ...seccion,
+            setZona({
+                ...zona,
                 lista: lista.filter((e) => e !== value),
             });
         }
@@ -90,7 +90,7 @@ const AdminSeccionEdit = () => {
             return
         }
         dispatch(hideAlertAction())
-        dispatch(updateSeccionAction(seccion))
+        dispatch(updateZonaAction(zona))
     }
 
     if(loading) return <Spinner/>
@@ -125,7 +125,7 @@ const AdminSeccionEdit = () => {
                     { listado && listado.length > 0 ? 
                         listado.map( (item, i) => (
                         <div key={i} className="py-1">
-                            <input type="checkbox" id={`chk${item.id}`} name="lista" value={item.id} checked={seccion.lista? seccion.lista.includes( `${item.id}` ) : false } onChange={handleCheck} className='rounded-md shadow-md my-1 mx-2' />
+                            <input type="checkbox" id={`chk${item.id}`} name="lista" value={item.id} checked={zona.lista? zona.lista.includes( `${item.id}` ) : false } onChange={handleCheck} className='rounded-md shadow-md my-1 mx-2' />
                             <label htmlFor={`chk${item.id}`} className='cursor-pointer'>{item.descripcion}</label>
                         </div>
                             ) )
@@ -144,4 +144,4 @@ const AdminSeccionEdit = () => {
     );
 }
  
-export default AdminSeccionEdit;
+export default AdminZonaEdit;

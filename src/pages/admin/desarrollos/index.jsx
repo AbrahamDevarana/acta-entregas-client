@@ -30,7 +30,7 @@ const AdminDesarrollos = () => {
                 { desarrollo && desarrollo.length > 0 ? 
                     desarrollo.map((item, index) => (
                         <div key={index} className="shadow border rounded">
-                            <img src={`${process.env.REACT_APP_URL}/verDesarrollo/${item.id}`} alt={`${item.descripcion}`} className="w-full h-[180px]"/>
+                            <img src={`${process.env.REACT_APP_URL}/verDesarrollo/${item.id}`} alt={`${item.descripcion}`} className="w-full h-[180px] object-cover"/>
                             <div className="px-10 py-4">
                                 <p className="text-center"> {item.descripcion} </p>
                                 <p className="py-2"> Etapas: { item.etapas? item.etapas.length : 0  } </p>
